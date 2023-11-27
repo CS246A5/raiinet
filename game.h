@@ -14,6 +14,8 @@ class Game {
     // TODO: add graphic display
 
     public:
+    Game();
+    ~Game();
     bool checkFinished();   // check if the game has finished- check if any player
                             // has 4 viruses or 4 data
     void toggleTurn(); // switch to other player's turn

@@ -4,6 +4,18 @@
 
 using namespace std;
 
+/* 
+Abilities:
+- L: Link Boost
+- F: Firewall
+- D: Download
+- P: Polarize
+- S: Scan
+- O: Move Link
+- A: Sabotage
+- T: Strength Boost
+*/
+
 class Ability {
     int id;              // the id of the ability
     bool isUsed = false; // has the ability been used yet?
