@@ -67,7 +67,7 @@ int main() {
 
         if (command == "-link1") {
             string fileName;
-            char ids ['a','b','c','d','e','f','g'];
+            char ids ['a','b','c','d','e','f','g','h'];
             if (ss >> fileName) {
                 fstream f {fileName};
                 for (int i = 0; i < 8; ++i) {
@@ -94,13 +94,13 @@ int main() {
 
         // setup finished
         // interactions
-
-    while (getline(cin, line)) {
+    istream& in = cin;
+    while (getline(in, line)) {
         stringstream ss{line};
         string command;
         ss >> command;
         
-        Player *curPlayer;
+        bool usedAbility = false;
 
         if (command == "move") {
             char linkId;
@@ -111,10 +111,35 @@ int main() {
             g.moveLink(linkId, direction);
             g.updateBoard();
             cout << g;
+            g.toggleTurn();
         }
 
+        if (command == "abilities") {
+            g.printAbilities();
+        }
 
+        if (command == "ability") {
+            int index;
+            ss >> index;
+            g.useAbility(index);
+        }
+
+        if (command == "board") {
+            cout << g;
+        }
+
+        if (command == "sequence") {
+            string fileName;
+            ss >> fileName;
+            fstream f {fileName};
+            istream& in = f; // idk if this works
+        }
+
+        if (command == "quit" || cin.eof()) {
+            break;
+        }
     }   
+    cout << "BYEEE";
 }
 
 

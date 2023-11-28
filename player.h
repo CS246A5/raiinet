@@ -31,6 +31,7 @@ class Player {
                                         // link is "V4", "D2", etc.
     void moveLink(char id, char direction); // moves link by id in specified
                                                             // direction. Updates link coords
+    void printAbilities();
 };
 
 #endif

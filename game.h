@@ -28,5 +28,6 @@ class Game {
                                         // dir can be 'n', 'e', 's', 'w'
                                         // edits the board
     void updateBoard(); // updates board
+    void printAbilities();
     friend std::ostream &operator<<(std::ostream &out, const Game &g);
 };
