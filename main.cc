@@ -18,9 +18,9 @@ Direction convert(const std::string &direction) {
 }
 
 int main() {
-    Game g;
     Player p1;
     Player p2;
+    Game g;
     cout << "Welcome to RAIInet!" << endl;
     // setup
     cout << "starting setup." << endl;
@@ -84,10 +84,37 @@ int main() {
         // TODO: -link2
 
         if (command == "graphics") {
+            g.initPlayerOne(p1);
+            g.initPlayerTwo(p2);
+            // TODO: BOARD!!??
             cout << g << endl; // TODO: unsure
+            break;
+        }
+    }
+
+        // setup finished
+        // interactions
+
+    while (getline(cin, line)) {
+        stringstream ss{line};
+        string command;
+        ss >> command;
+        
+        Player *curPlayer;
+
+        if (command == "move") {
+            char linkId;
+            char direction;
+            ss >> linkId;
+            ss >> direction;
+            // directions can be 'n', 'e', 's', 'w'
+            g.moveLink(linkId, direction);
+            g.updateBoard();
+            cout << g;
         }
 
-    }
+
+    }   
 }
 
 
