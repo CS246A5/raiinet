@@ -1,2 +1,5 @@
--ability1 LFDSP -ability2 LFDSP -link1 placement_file1.txt -link2 placement_file2.txt
+-ability1 LFDSP 
+-ability2 LFDSP 
+-link1 placement_file1.txt 
+-link2 placement_file2.txt
 board
