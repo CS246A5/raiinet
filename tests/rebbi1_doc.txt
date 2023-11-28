@@ -1,0 +1,25 @@
+Test Case 4 Explanation 
+- This test case initializes the game and display for Player 1 
+- The initial board setup is from the perspective of player 1 
+- Player 2's links are hidden 
+
+.in 
+- -ability1 -ability2 -ability2 PPFSD -link1 placement_file3.txt -board
+- -ability1: uses default, LFDSP
+- -ability2: same as above but for player2
+- -ability2 PPFSD: sike, we're going to use PPFSD
+- -link1 placement_file1.txt: txt file lists what each link should be for player 1 (V1 D4 V3 V2 D3 D1 D2 V4)
+- no -link2 command. Will use the random generator for its placements.
+- board: command to display the board
+
+.out 
+
+player 1's side: shows player1's stuff 
+
+board:
+- 8x8 grid intialization where each row and column represents a space where a link can be placed or moved. 
+- SS: server ports 
+- abcSSfgh: a,b,c,d,e,f,g,h are different links that player1 controls (each with specific attributes; virus or data, strength)
+- ABCSSFGH: A,B,C,D,E,F,G,H are different links that player2 controls (each with specific attributes; virus or data, strength)
+
+player 2's side: shows what player1 knows about player2.
