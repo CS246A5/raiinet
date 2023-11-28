@@ -26,6 +26,8 @@ class Player {
     int getNumData(); // how many downloaded data
     int getNumVirus(); // how many downloaded virus
     void addAbility(char ability); // adds ability 'L', 'S', etc.
+    void addLink(char id, string link); // adds link during setup. id is 'a','D', etc.
+                                        // link is "V4", "D2", etc.
 };
 
 #endif

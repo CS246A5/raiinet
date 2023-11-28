@@ -11,7 +11,7 @@ class Link {
     bool isSabotaged = false; // true if this link is sabotaged for its owner's turn
 
     public:
-    Link();
+    Link(int posX, int posY, int strength, bool isData);
     ~Link();
     int getPosX(); // returns the x-coordinate
     int getPosY(); // returns the y-coordinate

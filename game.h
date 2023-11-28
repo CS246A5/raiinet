@@ -23,4 +23,5 @@ class Game {
     void useAbility(int i); // uses the current player's ability at index i (0-4)
     void moveLink(char id, char dir);   // moves the current player's link by id in the dir direction
                                         // dir can be 'n', 'e', 's', 'w'
+    friend std::ostream &operator<<(std::ostream &out, const Game &g);
 };
