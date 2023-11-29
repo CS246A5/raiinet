@@ -84,6 +84,8 @@ int main() {
 
         // setup finished
         // interactions
+
+    g.init();
     istream& in = cin;
     while (getline(in, line)) {
         stringstream ss{line};

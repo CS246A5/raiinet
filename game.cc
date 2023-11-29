@@ -42,7 +42,7 @@ void Game::toggleTurn() {
 
 
 void Game::init() {
-    theBoard.init(td);
+    b.init(td);
 }
 
 // uses the current player's ability at index i (0-4)
@@ -56,17 +56,43 @@ void Game::useAbility(int i) {
 // edits the board
 void Game::moveLink(char id, char dir) {
     Player *curPlayer = theirTurn();
-    curPlayer->moveLink(id, dir);
 
+    // old position
+    int posX = curPlayer->getLink(id).getPosX();
+    int posY = curPlayer->getLink(id).getPosY();
+
+    // change old cell
+        // if was on firewall:
+    if (b.theBoard[posX][posY].isPlayerOneFirewall()) b.theBoard[posX][posY].setState('m');
+    else if (b.theBoard[posX][posY].isPlayerTwoFirewall()) b.theBoard[posX][posY].setState('w');
+        // if normal cell
+    else b.theBoard[posX][posY].setState('.');
+    
+    // moving
+    curPlayer->moveLink(id, dir);
+    // new position
+    posX = curPlayer->getLink(id).getPosX();
+    posY = curPlayer->getLink(id).getPosY();
+
+    // if lands on Server port / download edge
+    if (whoseTurn == true) { // p1's turn
+        if ((posX == 3 || posX == 4) && (posY == 7)) { // server ports
+            
+        }
+
+    }
     // updating the board
     int posX = curPlayer->getLink(id).getPosX();
     int posY = curPlayer->getLink(id).getPosY();
     
-    // if it was on a firewall
-    if (b.theBoard[posX][posY].
+    
+
+    // check if boosted
+    bool isBoosted = curPlayer->getLink(id).checkIfBoosted();
 } 
 
 void Game::printAbilities();
 
 
 std::ostream &operator<<(std::ostream &out, const Game &g);
+

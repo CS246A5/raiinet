@@ -13,7 +13,9 @@ class Cell {
     public:
     Cell(); // default constructor
     char getState() const; // returns the symbol at this cell
-    bool checkIfFirewall() const; // returns true if this cell is a firewall
+    void setState(char c); // sets sym to char c
+    bool isPlayerOneFirewall() const; // returns true if this cell is a firewall owned by p1
+    bool isPlayerTwoFirewall() const; // returns true if this cell is a firewall owned by p2
     int getRow() const; // returns r
     int getColumn() const; // returns c
     void setCoords(int r, int c); // set row and column numbers
