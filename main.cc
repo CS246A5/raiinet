@@ -7,16 +7,6 @@
 
 using namespace std;
 
-enum class Direction { NORTH, EAST, SOUTH, WEST };
-
-// converts from char to direction
-Direction convert(const std::string &direction) {
-    if ( direction == "e" ) return Direction::EAST;
-    if ( direction == "w" ) return Direction::WEST;
-    if ( direction == "n" ) return Direction::NORTH;
-    else return Direction::SOUTH;
-}
-
 int main() {
     Player p1;
     Player p2;
@@ -136,6 +126,10 @@ int main() {
         }
 
         if (command == "quit" || cin.eof()) {
+            break;
+        }
+
+        if (g.checkFinished()) { // Game::checkFinished might produce output
             break;
         }
     }   

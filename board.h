@@ -3,15 +3,16 @@
 #include <vector>
 #include "player.h"
 #include "cell.h"
+#include "textdisplay.h"
 
 using namespace std;
 
 class Board {
-    Cell theBoard[8][8]; // an 8-by-8 array of Cells
-    
     public:
+    Cell theBoard[8][8]; // an 8-by-8 array of Cells
     Board(); // default ctor
     ~Board();
-    void init(Player p1, Player p2);
+    Cell *getCell(int r, int c); // gets cell at row r and column c
+    void init(TextDisplay *td); // attaches td as an observer to every Cell on theBoard
     friend std::ostream &operator<<(std::ostream &out, const Board &b);
 };
