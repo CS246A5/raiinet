@@ -27,7 +27,7 @@ void Polarize::activate() {
         // Check if it's a data link or a virus link 
         if (link.checkIfData()) {
             // Change data link to a virus link with the same strength 
-            link.setIsData(false):
+            link.setIsData(false);
             cout << "Link " << linkName << " has been polarized to a virus link.\n";
         } else {
             // Change virus link to a data link with the same strength

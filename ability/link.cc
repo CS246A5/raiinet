@@ -41,6 +41,7 @@ bool Link::checkIfData() {
     return isData;
 }
 
+
 // Check if the link is boosted
 bool Link::checkIfBoosted() {
     return isBoosted;
@@ -49,6 +50,10 @@ bool Link::checkIfBoosted() {
 // Check if the link is sabotaged for its owner's turn
 bool Link::checkIfSabotaged() {
     return isSabotaged;
+}
+
+void Link::setIsData(bool value) {
+    isData = value;
 }
 
 // Move the link north
