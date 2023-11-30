@@ -7,6 +7,15 @@
 #include "ability/ability.h"
 #include "board.h"
 #include "link.h"
+//import each ability
+#include "linkboost.h"
+#include "firewall.h"
+#include "download.h"
+#include "polarize.h"
+#include "scan.h"
+#include "movelink.h"
+#include "sabotage.h"
+#include "strengthboost.h"
 
 using namespace std;
 
