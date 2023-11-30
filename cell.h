@@ -1,16 +1,17 @@
 #ifndef __CELL_H__
 #define __CELL_H__
-#include "observer.h"
 
-using namespace std;
+#include "observer.h"
+#include <vector>
+#include <string> // Include string explicitly
 
 class Cell {
     char sym = '.'; // can be '.', 'w', 'm', 'a'-'g', 'A'-'G', etc.
     bool firewall = false;
-    Observer *observer;
+    std::vector<Observer*> observers; // Collection of observers
     int r, c; // row, column
 
-    public:
+public:
     Cell(); // default constructor
     char getState() const; // returns the symbol at this cell
     void setState(char c); // sets sym to char c
@@ -19,8 +20,10 @@ class Cell {
     int getRow() const; // returns r
     int getColumn() const; // returns c
     void setCoords(int r, int c); // set row and column numbers
-    
-    // void attach(Observer *o); // attaches observer
+
+    // Methods for attaching and detaching observers
+    void attach(Observer* o);
+
     void notifyObserver(); // alert my observer that my state has been changed
 };
 

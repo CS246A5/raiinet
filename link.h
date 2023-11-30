@@ -22,6 +22,7 @@ class Link {
     bool checkIfData(); // returns true if data
     bool checkIfBoosted(); // returns true if boosted
     bool checkIfSabotaged(); // returns true if sabotaged for its owner's turn
+    void setIsData(bool value); // Method to set the isData attribute
 
     // should check if boosted. If boosted, then move by 2 units. If not, then move 1
     void moveN(); // move north
