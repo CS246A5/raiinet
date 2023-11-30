@@ -15,8 +15,8 @@ class Link {
     ~Link();
     int getPosX(); // returns the x-coordinate
     int getPosY(); // returns the y-coordinate
-    int setPosX(); // updates the x-coordinate
-    int setPosY(); // updates the y-coordinate
+    void setPosX(int x); // updates the x-coordinate
+    void setPosY(int y); // updates the y-coordinate
     int getStrength(); // returns the strength
     bool checkIfRevealed(); // returns true if the opponent has discovered this link
     bool checkIfData(); // returns true if data
