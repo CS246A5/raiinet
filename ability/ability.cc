@@ -2,8 +2,6 @@
 
 //create constructor
 Ability::Ability () : id{-1}, isUsed{false} {
-    //string?
-    abilityName = "";
 }
 
 //destructor is pure virtual
@@ -16,4 +14,9 @@ int Ability::getId() {
 //getter for used - checkUsed()
 bool Ability::checkUsed() {
     return isUsed;
+}
+
+//getter for ability string
+string Ability::getAbility() {
+    return abilityName;
 }
