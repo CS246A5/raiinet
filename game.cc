@@ -8,8 +8,8 @@ using namespace std;
 // TextDisplay *td;
 // Board theBoard;
 
-Player *Game::theirTurn() {
-    if (whoseTurn) return &p1;
+Player *Game::theirTurn(bool who) {
+    if (who) return &p1;
     else return &p2;
 }
 
@@ -47,7 +47,7 @@ void Game::init() {
 
 // uses the current player's ability at index i (0-4)
 void Game::useAbility(int i) {
-    Player *curPlayer = theirTurn();
+    Player *curPlayer = theirTurn(whoseTurn);
     curPlayer->useAbility(i);
 }
 
@@ -55,7 +55,8 @@ void Game::useAbility(int i) {
 // dir can be 'n', 'e', 's', 'w'
 // edits the board
 void Game::moveLink(char id, char dir) {
-    Player *curPlayer = theirTurn();
+    Player *curPlayer = theirTurn(whoseTurn);
+    Player *curOpponent = theirTurn(!whoseTurn);
 
     // old position
     int posX = curPlayer->getLink(id).getPosX();
@@ -76,11 +77,37 @@ void Game::moveLink(char id, char dir) {
 
     // if lands on Server port / download edge
     if (whoseTurn == true) { // p1's turn
-        if ((posX == 3 || posX == 4) && (posY == 7)) { // server ports
-            
+        if ((posX == 3 || posX == 4) && posY == 7) { // p2's server ports
+            curOpponent->downloadLink(curPlayer->getLink(id));
         }
-
+        else if ((posY == 8 && posX != 3 && posX != 4)) { // p2's download edge
+            curPlayer->downloadLink(curPlayer->getLink(id));
+        }
+        // else TODO: deal with if it is undefined
     }
+    if (whoseTurn == false) { // p2's turn
+        if ((posX == 3 || posX == 4) && posY == 0) { // p1's server ports
+            curOpponent->downloadLink(curPlayer->getLink(id));
+        }
+        else if ((posY == -1) && posX != 3 && posX != 4) { //p1's download edge
+            curPlayer->downloadLink(curPlayer->getLink(id));
+        }
+        // else TODO: deal with if it is undefined
+    }
+
+    // if it lands on other player's firewall
+    if (whoseTurn == true && b.getCell(posY, posX)->isPlayerTwoFirewall() ||
+        whoseTurn == false && b.getCell(posY, posX)->isPlayerOneFirewall()) {
+        curPlayer->getLink(id).reveal();
+        if (curPlayer->getLink(id).checkIfData() == false) {
+            curPlayer->downloadLink(curPlayer->getLink(id));
+        }
+    }
+
+    // if it lands on other player's link = BATTLE!!
+
+
+
     // updating the board
     int posX = curPlayer->getLink(id).getPosX();
     int posY = curPlayer->getLink(id).getPosY();
