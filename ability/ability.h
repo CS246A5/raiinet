@@ -27,4 +27,5 @@ class Ability {
     virtual void activate() = 0; // pure virtual function
     int getId();                 // returns the id of the ability
     bool checkUsed();            // returns whether the ability has been used
+    string getAbility();           // returns the ability name
 };

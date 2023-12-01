@@ -7,6 +7,15 @@
 #include "ability/ability.h"
 #include "board.h"
 #include "link.h"
+//import each ability
+#include "linkboost.h"
+#include "firewall.h"
+#include "download.h"
+#include "polarize.h"
+#include "scan.h"
+#include "movelink.h"
+#include "sabotage.h"
+#include "strengthboost.h"
 
 using namespace std;
 
@@ -26,11 +35,13 @@ class Player {
     ~Player();
     int getNumData(); // how many downloaded data
     int getNumVirus(); // how many downloaded virus
+    Link getLink(char id); // get link at id (a-h) or (A-H)
     void addAbility(char ability); // adds ability 'L', 'S', etc.
     void addLink(char id, string link); // adds link during setup. id is 'a','D', etc.
                                         // link is "V4", "D2", etc.
     void moveLink(char id, char direction); // moves link by id in specified
                                                             // direction. Updates link coords
+    void useAbility(int i); // uses ability at index i
     void printAbilities();
 };
 

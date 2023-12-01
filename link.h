@@ -15,13 +15,14 @@ class Link {
     ~Link();
     int getPosX(); // returns the x-coordinate
     int getPosY(); // returns the y-coordinate
-    int setPosX(); // updates the x-coordinate
-    int setPosY(); // updates the y-coordinate
+    void setPosX(int x); // updates the x-coordinate
+    void setPosY(int y); // updates the y-coordinate
     int getStrength(); // returns the strength
     bool checkIfRevealed(); // returns true if the opponent has discovered this link
     bool checkIfData(); // returns true if data
     bool checkIfBoosted(); // returns true if boosted
     bool checkIfSabotaged(); // returns true if sabotaged for its owner's turn
+    void setIsData(bool value); // Method to set the isData attribute
 
     // should check if boosted. If boosted, then move by 2 units. If not, then move 1
     void moveN(); // move north
