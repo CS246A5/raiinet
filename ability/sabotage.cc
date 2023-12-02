@@ -9,14 +9,13 @@ Sabotage::~Sabotage() {}
 //create activate
 void Sabotage::activate(Player& player, Player& opponent ) { 
     // Read input to determine which link to sabotage 
-    cout << "Enter the ID of the link you want to move: ";
+    //cout << "Enter the ID of the link you want to move: ";
     char id;
-     while (true) {
+    while (true) {
         cin >> id;
 
         try {
             Link& link = opponent.getLink(id);
-
             // Check if it has already been downloaded
             if (link.checkIfSabotaged()) {
                 cout << "Link " << id << " has already been sabotaged. Please re-enter the link name: ";

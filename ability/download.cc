@@ -13,7 +13,7 @@ Download::~Download() {
 
 void Download::activate(Player& player, Player& opponent ) { 
     // Read input to determine which link to download 
-    cout << "Enter the ID of the link you want to download: ";
+    //cout << "Enter the ID of the link you want to download: ";
     char id;
 
     while (true) {
@@ -30,11 +30,7 @@ void Download::activate(Player& player, Player& opponent ) {
                 // Change link to be downloaded
                 link.setIsDownloaded(true);
                 setUsed(true);
-                if (link.checkIfData()){
-                    opponent.downloadData();
-                } else {
-                    opponent.downloadVirus();
-                }
+                opponent.downloadLink(link);
                 cout << "Link " << id << " has been downloaded.\n";
                 break; // Exit the loop since we found the link
             }

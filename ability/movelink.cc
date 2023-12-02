@@ -10,15 +10,54 @@ MoveLink::~MoveLink() {}
 //create activate
 void MoveLink::activate(Player& player, Player& opponent ) { 
     // Read input to determine which link to download 
-    cout << "Enter the ID of the link you want to move: ";
     char id;
     int posX;
     int posY;
     while (true) {
+        
         cin >> id >> posX >> posY;
+        try{
+            Link& link = opponent.getLink(id);
+            Player *curPlayer = &player;
+            Player *curOpponent = &opponent;
 
+            bool illegalPos = false;
 
-    }
+            // if was on firewall: // how to access board?
+            if (b.theBoard[posX][posY].isPlayerOneFirewall()) {
+                illegalPos = true;
+            }
+            else if (b.theBoard[posX][posY].isPlayerTwoFirewall()) {
+                illegalPos = true;
+            }   else if (b.getCell(posY, posX)->getState() != '.')  {
+                illegalPos = true;
+            }
+
+            //check if on server port or off the map
+            if ((posX == 3 || posX == 4) && posY == 7) { 
+                illegalPos = true;
+            }
+            else if ((posY == 8 && posX != 3 && posX != 4)) { 
+                illegalPos = true;
+            }
+            else if ((posX == 3 || posX == 4) && posY == 0) {
+                illegalPos = true;
+            } else if ((posY == -1) && posX != 3 && posX != 4) { 
+                illegalPos = true;
+            }
+
+            if(!illegalPos){
+                link.setPosX(posX);
+                link.setPosY(posY);
+                setUsed(true);
+            } else {
+                cout << "Position is illegal please re-enter id, poition X and Y: ";
+            }
+        } catch (const std::runtime_error& e) {
+             // Specified link is not found
+            cout << "Link not found. Please re-enter the link name, posX and posY: ";
+        }
+    }  
 }
 
 

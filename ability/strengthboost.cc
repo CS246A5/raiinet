@@ -9,11 +9,10 @@ StrengthBoost::~StrengthBoost() {}
 //create activate
 void StrengthBoost::activate(Player& player, Player& opponent ) { 
     // Read input to determine which link to boost strength 
-    cout << "Enter the ID of the link you want to move: ";
+    //cout << "Enter the ID of the link you want to move: ";
     char id;
      while (true) {
         cin >> id;
-
         try {
             Link& link = opponent.getLink(id);
             link.setStrength(link.getStrength() + 1);
