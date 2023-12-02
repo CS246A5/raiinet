@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+class Player;
+
 Polarize::Polarize() : Ability("Polarize") {
     // Constructor for Polarize
 }

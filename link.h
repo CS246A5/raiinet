@@ -9,6 +9,7 @@ class Link {
     bool isData; // true if this link is a data, false if it isn't
     bool isBoosted = false; // true if this link is boosted
     bool isSabotaged = false; // true if this link is sabotaged for its owner's turn
+    bool isDownloaded = false; //true if this link is downloadedwhen
 
     public:
     Link(int posX, int posY, int strength, bool isData);
@@ -22,7 +23,9 @@ class Link {
     bool checkIfData(); // returns true if data
     bool checkIfBoosted(); // returns true if boosted
     bool checkIfSabotaged(); // returns true if sabotaged for its owner's turn
+    bool checkIfDownloaded(); // returns true if downlaoded
     void setIsData(bool value); // Method to set the isData attribute
+    void setIsDownloaded(bool value); //
 
     // should check if boosted. If boosted, then move by 2 units. If not, then move 1
     void moveN(); // move north

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
-#include "board.h"
+#include "../board.h"
+#include "../player.h"
 
 using namespace std;
 
@@ -22,10 +23,10 @@ class Ability {
     string abilityName;  // the name of the ability: Move Link, Sabotage, etc.
 
     public:
-    Ability(); // ctor, might need fields for initialization
-    virtual ~Ability() = 0;
-    virtual void activate() = 0; // pure virtual function
-    int getId();                 // returns the id of the ability
-    bool checkUsed();            // returns whether the ability has been used
-    string getAbility();           // returns the ability name
+        Ability(const string& name); // ctor, might need fields for initialization
+        virtual ~Ability() = 0;
+        virtual void activate(Player& player ) = 0; // pure virtual function
+        int getId() const;                 // returns the id of the ability
+        bool checkUsed() const;            // returns whether the ability has been used
+        string getAbility() const;           // returns the ability name
 };
