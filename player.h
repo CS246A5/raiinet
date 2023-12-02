@@ -7,6 +7,7 @@
 #include "ability/ability.h"
 #include "board.h"
 #include "link.h"
+#include "game.h"
 //import each ability
 #include "ability/ability.h"
 #include "ability/linkboost.h"
@@ -24,7 +25,7 @@ using namespace std;
 class Player {
     protected: 
         map<char,Link> links;
-
+    Game *theGame;
     int numData; // # of downloaded data
     int numVirus; // # of downloaded viruses
     Ability* abilities[5];
@@ -37,7 +38,7 @@ class Player {
         enum class theAbilities { LINKBOOST, FIREWALL, DOWNLOAD, POLARIZE, 
                                     SCAN, MOVELINK, SABOTAGE, STRENGTHBOOST };
         
-        Player(); // must initialize all links
+        Player(Game* theGame); // must initialize all links
         ~Player();
         int getNumData(); // how many downloaded data
         int getNumVirus(); // how many downloaded virus

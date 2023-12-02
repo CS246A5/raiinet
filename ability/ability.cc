@@ -1,7 +1,7 @@
 #include "ability.h"
 
 //create constructor
-Ability::Ability (const string& name) : id{-1}, isUsed{false} {
+Ability::Ability (const string& name, Game *theGame) : id{-1}, isUsed{false}, theGame{theGame} {
     abilityName = name;
 }
 

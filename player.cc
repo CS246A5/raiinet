@@ -1,7 +1,7 @@
 #include "player.h"
 
 // constructor
-Player::Player(): numData{0}, numVirus{0} {
+Player::Player(Game *theGame): numData{0}, numVirus{0}, theGame{theGame} {
     // initialize links and abilities and firewallls?
 }
 

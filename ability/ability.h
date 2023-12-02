@@ -2,6 +2,7 @@
 #include <string>
 #include "../board.h"
 #include "../player.h"
+#include "../game.h"
 
 using namespace std;
 
@@ -22,9 +23,10 @@ class Ability {
     bool isUsed = false; // has the ability been used yet?
     string abilityName;  // the name of the ability: Move Link, Sabotage, etc.
     protected:
-        void setUsed(bool value); 
+        void setUsed(bool value);
+        Game *theGame;
     public:
-        Ability(const string& name); // ctor, might need fields for initialization
+        Ability(const string& name, Game *theGame); // ctor, might need fields for initialization
         virtual ~Ability() = 0;
         virtual void activate(Player& player, Player& opponent ) = 0; // pure virtual function
         int getId() const;                 // returns the id of the ability

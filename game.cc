@@ -42,6 +42,7 @@ void Game::toggleTurn() {
 
 
 void Game::init() {
+    td = new TextDisplay;
     b.init(td);
     // server ports
     b.getCell(0,3)->setState('S');

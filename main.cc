@@ -8,9 +8,9 @@
 using namespace std;
 
 int main() {
-    Player p1;
-    Player p2;
     Game g;
+    Player p1 = Player(&g);
+    Player p2 = Player(&g);
     cout << "Welcome to RAIInet!" << endl;
     // setup
     cout << "starting setup." << endl;
