@@ -67,14 +67,14 @@ Link& Player::getLink(char id) {
     }
 }
 
-// add to numData after download
-void Player::downloadData() {
-    numData++;
+// add to numData or numVirus after download
+void Player::downloadLink(Link& currLink) {
+    if (currLink.checkIfData()){
+        numVirus ++;
+    } else {
+        numData ++;
+    }
 }
-// add to numVirus after download
-void Player::downloadVirus() {
-    numVirus++;
-} 
 
 // add an ability based on the given character
 void Player::addAbility(char ability) {
@@ -110,30 +110,89 @@ void Player::addLink(char id, string link) {
         int posY = id - 'A' + 1;
         if (id == 'D' || id == 'E') posX -= 1;
         links.emplace(id, new Link(posX, posY, strength, isData));
-     
+        linkNames.emplace(id, link);
     } else {
         int posX = 0;
         int posY = id - 'a' + 1;
         if (id == 'd' || id == 'e') posX += 1;
         links.emplace(id, new Link(posX, posY, strength, isData));
-     
+        linkNames.emplace(id, link);
     }
 }
 
 // move a link in the specified direction
-void Player::moveLink(char id, char direction) {
+bool Player::moveLink(char id, char direction, bool isP1Turn) {
+    bool isIllegal = false;
+
+    Link& link = links[id];
+    int posX = link.getPosX();
+    int posY = link.getPosY();
+    bool isBoosted = link.checkIfBoosted();
+    
+    int increment = 1;
+    if (isBoosted) increment = 2;
+
+    //check which direction the movement is and assume the positions are m oved
     switch (direction) {
+        case 'N': posY -= increment;;
+        case 'W': posX -= increment;
+        case 'E': posX += increment;
+        case 'S': posY += increment;
+    }
+
+    //check illegal moves
+    //check if onto own links
+    for (auto& p : links) {
+        if (id = p.first) break; //if it is the link itself - should not check
+        Link& otherLink = p.second;
+        int otherX = otherLink.getPosX();
+        int otherY = otherLink.getPosY();
+
+        if(posX == otherX && posY == otherY) isIllegal = true;
+    }
+
+    //check if off map or server port
+    if (isP1Turn){
+        if ((posX == 3 || posX == 4) && posY == 0) { //own serverPort
+            isIllegal = true;
+        } else if ((posX > 7) || (posX < 0) || (posY< 0)){ //off the map
+            isIllegal = true;
+        }
+    } else {
+         if ((posX == 3 || posX == 4) && posY == 7) { //own serverPort
+            isIllegal = true;
+        } else if ((posX > 7) || (posX < 0) || (posY > 7)){ //off the map
+            isIllegal = true;
+        } 
+    }
+
+    //if illegal move return false
+    if(isIllegal){
+        cout << "Illegal move" << endl;
+        return false;
+    
+    } else { //else make the necessary moves
+        switch (direction) {
             case 'N': links[id].moveN();
             case 'W': links[id].moveW();
             case 'E': links[id].moveE();
             case 'S': links[id].moveS();
-        }
-}
+        }   
+        return true;
+    }
+    
+} //moveLink
 
 // use an ability at the specified index
-void Player::useAbility(int i, Player &opponent ) {
+bool Player::useAbility(int i, Player &opponent ) {
     if (i >= 0 && i < 5 && abilities[i] != nullptr) {
-        abilities[i]->activate(*this, opponent);
+        if(abilities[i]->checkUsed()) {
+            abilities[i]->activate(*this, opponent);
+        }
+        else {
+            //cout << "This ability has already been used"  << endl;
+            return false;
+        }
     }
 }
 
@@ -152,3 +211,12 @@ void Player::printAbilities() {
     cout << endl;
 }
 
+
+std::ostream &operator<<(std::ostream &out, const Player &p) {
+    int count = 0;
+    for (auto& p : p.linkNames){
+        count++;
+        out << p.first << ": " << p.second << " ";
+        if (count == 4) out << endl;
+    }
+}

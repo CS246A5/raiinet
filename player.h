@@ -29,6 +29,8 @@ class Player {
     int numVirus; // # of downloaded viruses
     Ability* abilities[5];
     vector<int> firewalls;
+    map<char, string> linkNames;
+
     Ability convert(const char &ability) const; // converts from char to Ability
 
     public:
@@ -40,18 +42,17 @@ class Player {
         int getNumData(); // how many downloaded data
         int getNumVirus(); // how many downloaded virus
         
-        void downloadData(); //increment the number of data 
-        void downloadVirus(); //increment the number of virus downloadedf
-
+        void downloadLink(Link& currLink); //increment the number of data/virus downloaded
         Link& getLink(char id); // get link at id (a-h) or (A-H)
 
         void addAbility(char ability); // adds ability 'L', 'S', etc.
         void addLink(char id, string link); // adds link during setup. id is 'a','D', etc.
                                             // link is "V4", "D2", etc.
-        void moveLink(char id, char direction); // moves link by id in specified
+        bool moveLink(char id, char direction, bool isP1Turn); // moves link by id in specified
                                                                 // direction. Updates link coords
-        void useAbility(int i, Player& Opponent); // uses ability at index i
+        bool useAbility(int i, Player& Opponent); // uses ability at index i
         void printAbilities(); //print the abilities avaliable
+        friend std::ostream &operator << (std::ostream &out, const Player &p);
 };
 
 #endif

@@ -30,6 +30,7 @@ class Link {
         void setIsDownloaded(bool value); //Method to set the isDownloaded attribute
         void setIsBoosted(bool value); // Method to set the isBoosted attribute
         void setIsSabotaged(bool value); // Method to set isSabotaged attribute
+        void reveal(); // Method to set isRevealed to true
         void moveN(); // move north
         void moveE(); // move east
         void moveS(); // move south

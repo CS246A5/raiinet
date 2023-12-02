@@ -131,7 +131,8 @@ void Game::moveLink(char id, char dir) {
     // else TODO: deal with if it is undefined
     
     // moving
-    curPlayer->moveLink(id, dir);
+    curPlayer->moveLink(id, dir, whoseTurn);
+    //if 
     // new position
     posX = curPlayer->getLink(id).getPosX();
     posY = curPlayer->getLink(id).getPosY();

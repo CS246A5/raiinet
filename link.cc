@@ -85,6 +85,10 @@ void Link::setIsSabotaged(bool value){
     isSabotaged = value;
 }
 
+//Set isRevealed to true
+void Link::reveal(){
+    isRevealed = true;
+}
 
 // Move the link north
 void Link::moveN() {
