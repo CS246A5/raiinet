@@ -44,13 +44,23 @@ Player::~Player() {
 
 
 // getter for the number of downloaded data
-int Player::getNumData() {
+int Player::getNumData() const {
     return numData;
 }
 
 // getter for the number of downloaded viruses
-int Player::getNumVirus() {
+int Player::getNumVirus() const {
     return numVirus;
+}
+
+//getter for number of abilities remaining unused
+int Player::getNumAbilities() const {
+    int count = 0;
+    for (int i = 0; i < 5; ++i) {
+        Ability* curr = abilities[i];
+        if(!curr->checkUsed()) count++;
+    }
+    return count;
 }
 
 // getter for a specific link
