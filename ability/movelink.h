@@ -10,5 +10,5 @@ class MoveLink : public Ability {
     public:
     MoveLink();
     ~MoveLink();
-    void activate(Player& player ) override;// reads input and activates ability
+    void activate(Player& player, Player& opponent )  override;// reads input and activates ability
 };

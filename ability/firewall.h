@@ -10,5 +10,5 @@ class Firewall : public Ability {
     public:
     Firewall();
     ~Firewall();
-    void activate(Player& player ) override; // reads input and activates ability
+    void activate(Player& player, Player& opponent ) override; // reads input and activates ability
 };

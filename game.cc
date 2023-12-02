@@ -97,7 +97,8 @@ void Game::init() {
 // uses the current player's ability at index i (0-4)
 void Game::useAbility(int i) {
     Player *curPlayer = theirTurn(whoseTurn);
-    curPlayer->useAbility(i);
+    Player *opponent = theirTurn(!whoseTurn);
+    curPlayer->useAbility(i, *opponent);
 }
 
 // moves the current player's link by id in the dir direction
@@ -130,7 +131,8 @@ void Game::moveLink(char id, char dir) {
     // else TODO: deal with if it is undefined
     
     // moving
-    curPlayer->moveLink(id, dir);
+    curPlayer->moveLink(id, dir, whoseTurn);
+    //if 
     // new position
     posX = curPlayer->getLink(id).getPosX();
     posY = curPlayer->getLink(id).getPosY();
@@ -208,4 +210,3 @@ std::ostream &operator<<(std::ostream &out, const Game &g) {
     out << "Abilities: " << g.p1.getNumAbilities() << endl;
     // printLinks
 }
-

@@ -31,6 +31,12 @@ int Link::getStrength() {
     return strength;
 }
 
+//Setter for strength {
+void Link::setStrength(int s){
+    strength = s;
+}
+
+
 // Check if the link is revealed to the opponent 
 bool Link::checkIfRevealed() {
     return isRevealed;
@@ -58,13 +64,30 @@ bool Link::checkIfDownloaded() {
     return isDownloaded;
 }
 
-
+// Set isData
 void Link::setIsData(bool value) {
     isData = value;
 }
 
+// Set IsDownloaded
 void Link::setIsDownloaded(bool value) {
     isDownloaded = value;
+}
+
+// Set IsBoosted
+void Link::setIsBoosted(bool value){
+    isBoosted = value;
+}
+
+
+// Set isSabotaged
+void Link::setIsSabotaged(bool value){
+    isSabotaged = value;
+}
+
+//Set isRevealed to true
+void Link::reveal(){
+    isRevealed = true;
 }
 
 // Move the link north
