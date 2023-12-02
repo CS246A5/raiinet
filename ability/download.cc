@@ -1,6 +1,4 @@
 #include "download.h"
-#include "../player.h"
-
  // Constructor for download
 Download::Download() : Ability("Download") {
    
@@ -14,7 +12,7 @@ Download::~Download() {
 //create activate
 
 void Download::activate(Player& player ) { 
-    // Read input to determine which link to polarize 
+    // Read input to determine which link to download 
     cout << "Enter the name or ID of the link you want to polarize: ";
     char linkName;
 
@@ -25,16 +23,21 @@ void Download::activate(Player& player ) {
             // Assuming Ability has a virtual getLink function
             Link& link = player.getLink(linkName);
 
-            // Check if it's a data link or a virus link 
+            // Check if it has already been downloaded
             if (link.checkIfDownloaded()) {
                 cout << "Link " << linkName << " has already been downloaded. Please reenter the link name: ";
             } else {
-                // Change virus link to a data link with the same strength
+                // Change link to be downloaded
                 link.setIsDownloaded(true);
+                if (link.checkIfData()){
+                    player.downloadData();
+                } else {
+                    player.downloadVirus();
+                }
                 cout << "Link " << linkName << " has been downloaded.\n";
                 break; // Exit the loop since we found the link
             }
-        } catch (const std::runtime_error& e) {
+        } catch (const std::runtime_error& e) { //not sure if it is the right exception to catch
             // Specified link is not found
             cout << "Link not found. Please reenter the link name: ";
         }

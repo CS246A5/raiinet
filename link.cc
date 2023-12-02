@@ -52,8 +52,19 @@ bool Link::checkIfSabotaged() {
     return isSabotaged;
 }
 
+
+// Check if the link is a data link
+bool Link::checkIfDownloaded() {
+    return isDownloaded;
+}
+
+
 void Link::setIsData(bool value) {
     isData = value;
+}
+
+void Link::setIsDownloaded(bool value) {
+    isDownloaded = value;
 }
 
 // Move the link north
