@@ -13,19 +13,19 @@ Player::~Player() {
     }
 }
 
-//  convert a character to an ability 
-Ability Player::convert(const char &ability) const { // need to implment all of ability subclasses for squiggly to go away
-    //use case?
-    switch (ability) {
-        case 'L': return LinkBoost();
-        case 'F': return Firewall();
-        case 'D': return Download();
-        case 'P': return Polarize();
-        case 'S': return Scan();
-        case 'M': return MoveLink() ;
-        case 'B': return Sabotage();
-        case 'T': return StrengthBoost();
-    }
+// //  convert a character to an ability 
+// Ability Player::convert(const char &ability) const { // need to implment all of ability subclasses for squiggly to go away
+//     //use case?
+//     switch (ability) {
+//         case 'L': return LinkBoost();
+//         case 'F': return Firewall();
+//         case 'D': return Download();
+//         case 'P': return Polarize();
+//         case 'S': return Scan();
+//         case 'M': return MoveLink() ;
+//         case 'B': return Sabotage();
+//         case 'T': return StrengthBoost();
+//     }
 
     //if has to do with enum class
 //     switch (ability) {
@@ -39,7 +39,7 @@ Ability Player::convert(const char &ability) const { // need to implment all of 
 //         case 'T': return theAbilities::STRENGTHBOOST;
 //         default:  return theAbilities::UNKNOWN;
 //     }
-}
+// }
 
 
 
@@ -54,9 +54,27 @@ int Player::getNumVirus() {
 }
 
 // getter for a specific link
-Link Player::getLink(char id) {
-    return links[id];
+Link& Player::getLink(char id) {
+    auto it = links.find(id);
+    if (it != links.end()) {
+        return it->second;  // Return the value associated with the key 'id'
+    } else {
+        char newId;
+        // Handle the case when 'id' is not found in the map
+        cout << "Wrong id, please reenter: ";
+        cin >> newId;
+        getLink(newId);
+    }
 }
+
+// add to numData after download
+void Player::downloadData() {
+    numData++;
+}
+// add to numVirus after download
+void Player::downloadVirus() {
+    numVirus++;
+} 
 
 // add an ability based on the given character
 void Player::addAbility(char ability) {
@@ -115,7 +133,7 @@ void Player::moveLink(char id, char direction) {
 // use an ability at the specified index
 void Player::useAbility(int i) {
     if (i >= 0 && i < 5 && abilities[i] != nullptr) {
-        abilities[i]->activate();
+        abilities[i]->activate(*this);
     }
 }
 
