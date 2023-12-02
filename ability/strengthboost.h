@@ -10,5 +10,5 @@ class StrengthBoost : public Ability {
     public:
     StrengthBoost();
     ~StrengthBoost();
-    void activate() override; // reads input and activates ability
+    void activate(Player& player, Player& opponent ) override; // reads input and activates ability
 };

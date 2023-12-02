@@ -10,5 +10,5 @@ class LinkBoost : public Ability {
     public:
     LinkBoost();
     ~LinkBoost();
-    void activate() override; // reads input and activates ability
+    void activate(Player& player, Player& opponent ) override; // reads input and activates ability
 };

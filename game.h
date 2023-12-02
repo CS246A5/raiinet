@@ -12,7 +12,7 @@ class Game {
                         // for more than two players, can make integer
     TextDisplay *td;
     // TODO: add graphic display
-    Player *theirTurn();
+    Player *theirTurn(bool who);
 
     public:
     Game();

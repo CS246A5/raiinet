@@ -1,3 +1,7 @@
+// download.h
+#ifndef __DOWNLOAD_H__
+#define __DOWNLOAD_H__
+
 #include <iostream>
 #include <string>
 #include "ability.h"
@@ -10,5 +14,8 @@ class Download : public Ability {
     public:
     Download();
     ~Download();
-    void activate() override; // reads input and activates ability
+    void activate(Player& player, Player& opponent ) override; // reads input and activates ability
 };
+
+#endif
+

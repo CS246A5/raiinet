@@ -10,5 +10,5 @@ class Polarize : public Ability {
     public:
     Polarize();
     ~Polarize();
-    void activate() override; // reads input and activates ability
+     void activate(Player& player, Player& opponent )  override; // reads input and activates ability
 };

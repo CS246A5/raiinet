@@ -10,5 +10,5 @@ class Scan : public Ability {
     public:
     Scan();
     ~Scan();
-    void activate() override; // reads input and activates ability
+    void activate(Player& player, Player& opponent ) override; // reads input and activates ability
 };
