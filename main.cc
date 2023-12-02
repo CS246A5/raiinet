@@ -76,8 +76,8 @@ int main() {
         if (command == "graphics") {
             g.initPlayerOne(p1);
             g.initPlayerTwo(p2);
-            // TODO: BOARD!!??
-            cout << g << endl; // TODO: unsure
+            g.init();
+            cout << g << endl;
             break;
         }
     }
@@ -85,7 +85,7 @@ int main() {
         // setup finished
         // interactions
 
-    g.init();
+    
     istream& in = cin;
     while (getline(in, line)) {
         stringstream ss{line};
