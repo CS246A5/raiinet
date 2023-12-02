@@ -21,3 +21,8 @@ bool Ability::checkUsed() const {
 string Ability::getAbility() const{
     return abilityName;
 }
+
+
+void Ability::setUsed(bool value) {
+    isUsed = value;
+}

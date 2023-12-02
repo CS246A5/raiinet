@@ -6,35 +6,34 @@ LinkBoost::LinkBoost() : Ability("LinkBoost") {
 }
 
 //create destructor
-Download::~Download() {
+LinkBoost::~LinkBoost() {
 }
 
 //create activate
 
-void Download::activate(Player& player ) { 
+void LinkBoost::activate(Player& player, Player& opponent ) { 
     // Read input to determine which link to polarize 
-    cout << "Enter the name or ID of the link you want to polarize: ";
-    char linkName;
+    cout << "Enter the ID of the link you want to boost: ";
+    char id;
 
     while (true) {
-        cin >> linkName;
+        cin >> id;
 
         try {
-            // Assuming Ability has a virtual getLink function
-            Link& link = player.getLink(linkName);
-
-            // Check if it's a data link or a virus link 
-            if (link.checkIfDownloaded()) {
-                cout << "Link " << linkName << " has already been downloaded. Please reenter the link name: ";
+            //get the link we want to work with
+            Link& link = player.getLink(id);
+            setUsed(true);
+            // Check if the link is boosted
+            if (link.checkIfBoosted()) {
+                cout << "Link " << id << " has already been boosted. Please re-enter the link id: ";
             } else {
-                // Change virus link to a data link with the same strength
-                link.setIsDownloaded(true);
-                cout << "Link " << linkName << " has been downloaded.\n";
-                break; // Exit the loop since we found the link
+                link.setIsBoosted(true);
+                cout << "Link " << id << " has been boosted.\n";
+                break; 
             }
         } catch (const std::runtime_error& e) { //not sure if it is the right exception to catch
             // Specified link is not found
-            cout << "Link not found. Please reenter the link name: ";
+            cout << "Link not found. Please re-enter the link name: ";
         }
     }
 }

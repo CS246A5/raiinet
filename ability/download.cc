@@ -11,35 +11,36 @@ Download::~Download() {
 
 //create activate
 
-void Download::activate(Player& player ) { 
+void Download::activate(Player& player, Player& opponent ) { 
     // Read input to determine which link to download 
-    cout << "Enter the name or ID of the link you want to polarize: ";
-    char linkName;
+    cout << "Enter the ID of the link you want to download: ";
+    char id;
 
     while (true) {
-        cin >> linkName;
+        cin >> id;
 
         try {
             // Assuming Ability has a virtual getLink function
-            Link& link = player.getLink(linkName);
+            Link& link = opponent.getLink(id);
 
             // Check if it has already been downloaded
             if (link.checkIfDownloaded()) {
-                cout << "Link " << linkName << " has already been downloaded. Please reenter the link name: ";
+                cout << "Link " << id << " has already been downloaded. Please re-enter the link name: ";
             } else {
                 // Change link to be downloaded
                 link.setIsDownloaded(true);
+                setUsed(true);
                 if (link.checkIfData()){
-                    player.downloadData();
+                    opponent.downloadData();
                 } else {
-                    player.downloadVirus();
+                    opponent.downloadVirus();
                 }
-                cout << "Link " << linkName << " has been downloaded.\n";
+                cout << "Link " << id << " has been downloaded.\n";
                 break; // Exit the loop since we found the link
             }
         } catch (const std::runtime_error& e) { //not sure if it is the right exception to catch
             // Specified link is not found
-            cout << "Link not found. Please reenter the link name: ";
+            cout << "Link not found. Please re-enter the link name: ";
         }
     }
 }

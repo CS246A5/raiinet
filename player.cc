@@ -103,7 +103,7 @@ void Player::addLink(char id, string link) {
 
     char cIsData = link[0];
     bool isData = true;
-    if (cIsData = 'V') false;
+    if (cIsData = 'V') isData = false;
  
     if(std::isupper(id)){
         int posX = 7;
@@ -131,9 +131,9 @@ void Player::moveLink(char id, char direction) {
 }
 
 // use an ability at the specified index
-void Player::useAbility(int i) {
+void Player::useAbility(int i, Player &opponent ) {
     if (i >= 0 && i < 5 && abilities[i] != nullptr) {
-        abilities[i]->activate(*this);
+        abilities[i]->activate(*this, opponent);
     }
 }
 
