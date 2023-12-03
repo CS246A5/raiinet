@@ -1,5 +1,4 @@
 #include "board.h"
-#include "textdisplay.h"
 
 Board::Board() {
     // Initialize the board cells, you can add your logic here

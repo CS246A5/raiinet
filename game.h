@@ -1,3 +1,5 @@
+#ifndef _GAME_H_
+#define _GAME_H_
 #include <iostream>
 #include <string>
 #include "board.h"
@@ -34,3 +36,5 @@ class Game {
     void printAbilities();
     friend std::ostream &operator<<(std::ostream &out, const Game &g);
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef _ABILITY_H_
+#define _ABILITY_H_
+
 #include <iostream>
 #include <string>
 #include "../board.h"
@@ -35,3 +38,5 @@ class Ability {
         
         
 };
+
+#endif
