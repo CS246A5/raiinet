@@ -10,6 +10,7 @@ class Cell {
     bool firewall = false;
     std::vector<Observer*> observers; // Collection of observers
     int r, c; // row, column
+    Link* link = nullptr; // Pointer to a Link, null if the cell is empty
 
 public:
     Cell(); // default constructor
@@ -20,6 +21,9 @@ public:
     int getRow() const; // returns r
     int getColumn() const; // returns c
     void setCoords(int r, int c); // set row and column numbers
+    void setLink(Link* linkObj);
+    Link* getLink() const;
+
 
     // Methods for attaching and detaching observers
     void attach(Observer* o);
