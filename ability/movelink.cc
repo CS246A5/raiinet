@@ -2,7 +2,7 @@
 
 
 //create constructor
-MoveLink::MoveLink(): Ability("Move Link") {}
+MoveLink::MoveLink(): Ability("Move Link", theGame) {}
 
 //create destructor
 MoveLink::~MoveLink() {}
@@ -13,8 +13,10 @@ void MoveLink::activate(Player& player, Player& opponent ) {
     char id;
     int posX;
     int posY;
+    
     while (true) {
-        
+        Board& b = Board::getInstance(); 
+
         cin >> id >> posX >> posY;
         try{
             Link& link = opponent.getLink(id);
@@ -26,7 +28,7 @@ void MoveLink::activate(Player& player, Player& opponent ) {
             // if was on firewall: // how to access board?
             if (b.theBoard[posX][posY].isPlayerOneFirewall()) {
                 illegalPos = true;
-            }
+            } 
             else if (b.theBoard[posX][posY].isPlayerTwoFirewall()) {
                 illegalPos = true;
             }   else if (b.getCell(posY, posX)->getState() != '.')  {
@@ -50,6 +52,7 @@ void MoveLink::activate(Player& player, Player& opponent ) {
                 link.setPosX(posX);
                 link.setPosY(posY);
                 setUsed(true);
+                b.changeState(posX, posY, id);
             } else {
                 cout << "Position is illegal please re-enter id, poition X and Y: ";
             }
