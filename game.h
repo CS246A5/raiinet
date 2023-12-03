@@ -13,21 +13,21 @@ class Player;
 class Board;
 
 class Game {
-    unique_ptr<Player> p1 = make_unique<Player>(); // for more than two players, can do an arr/vec of players
-    unique_ptr<Player> p2 = make_unique<Player>();
+    unique_ptr<Player> p1; // for more than two players, can do an arr/vec of players
+    unique_ptr<Player> p2;
     unique_ptr<Board> b = make_unique<Board>();
     bool whoseTurn = true;     // true for playerOne, false for playerTwo 
                         // for more than two players, can make integer
     unique_ptr<TextDisplay> td = make_unique<TextDisplay>();
     // TODO: add graphic display
-    unique_ptr<Player> theirTurn(bool who);
+    Player* theirTurn(bool who);
 
     public:
     Game();
     ~Game();
-    Player *getCurrentPlayer();
-    void initPlayerOne(Player *player1);
-    void initPlayerTwo(Player *player2);
+    Player* getCurrentPlayer();
+    void initPlayerOne(unique_ptr<Player> player1);
+    void initPlayerTwo(unique_ptr<Player> player2);
     Board* getBoard(); // returns the board by pointer
     bool checkFinished();   // check if the game has finished- check if any player
                             // has 4 viruses or 4 data

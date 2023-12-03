@@ -9,8 +9,8 @@ using namespace std;
 
 int main() {
     Game g;
-    Player p1 = Player(&g);
-    Player p2 = Player(&g);
+    unique_ptr<Player> p1 = make_unique<Player>(&g);
+    unique_ptr<Player> p2 = make_unique<Player>(&g);
     cout << "Welcome to RAIInet!" << endl;
     // setup
     cout << "starting setup." << endl;
@@ -26,15 +26,15 @@ int main() {
             bool needDefault = true; // remains true if the player did not specify abilities
             while (ss >> ability) {
                 needDefault = false; // set to false
-                p1.addAbility(ability);
+                p1->addAbility(ability);
             }
             // if need default abilities
             if (needDefault == true) {
-                p1.addAbility('L');
-                p1.addAbility('F');
-                p1.addAbility('D');
-                p1.addAbility('S');
-                p1.addAbility('P');
+                p1->addAbility('L');
+                p1->addAbility('F');
+                p1->addAbility('D');
+                p1->addAbility('S');
+                p1->addAbility('P');
             }
         }
 
@@ -43,15 +43,15 @@ int main() {
             bool needDefault = true; // remains true if the player did not specify abilities
             while (ss >> ability) {
                 needDefault = false; // set to false
-                p2.addAbility(ability); // ability type is string
+                p2->addAbility(ability); // ability type is string
             }
             // if need default abilities
             if (needDefault == true) {
-                p2.addAbility('L');
-                p2.addAbility('F');
-                p2.addAbility('D');
-                p2.addAbility('S');
-                p2.addAbility('P');
+                p2->addAbility('L');
+                p2->addAbility('F');
+                p2->addAbility('D');
+                p2->addAbility('S');
+                p2->addAbility('P');
             }
         }
 
@@ -63,7 +63,7 @@ int main() {
                 for (int i = 0; i < 8; ++i) {
                     string link;
                     f >> link;
-                    p1.addLink(ids[i], link);
+                    p1->addLink(ids[i], link);
                 }
             }
             else {
@@ -74,8 +74,8 @@ int main() {
         // TODO: -link2
 
         if (command == "graphics") {
-            g.initPlayerOne(&p1);
-            g.initPlayerTwo(&p2);
+            g.initPlayerOne(move(p1));
+            g.initPlayerTwo(move(p2));
             g.init();
             cout << g << endl;
             break;

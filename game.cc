@@ -8,12 +8,12 @@ using namespace std;
 // TextDisplay *td;
 // Board theBoard;
 
-Player *Game::theirTurn(bool who) {
-    if (who) return p1;
-    else return p2;
+Player* Game::theirTurn(bool who) {
+    if (who) return p1.get();
+    else return p2.get();
 }
 
-Player *Game::getCurrentPlayer() {
+Player* Game::getCurrentPlayer() {
     return theirTurn(whoseTurn);
 }
 
@@ -22,12 +22,12 @@ Game::Game() : p1{nullptr}, p2{nullptr}, td{new TextDisplay} {
 
 Game::~Game() {}
 
-void Game::initPlayerOne(Player *player1) {p1 = player1;}
+void Game::initPlayerOne(unique_ptr<Player> player1) {p1 = move(player1);}
 
-void Game::initPlayerTwo(Player *player2) {p1 = player2;}
+void Game::initPlayerTwo(unique_ptr<Player> player2) {p2 = move(player2);}
 
 Board* Game::getBoard() {
-    return b;
+    return b.get();
 }
 
 // check if the game has finished- check if any player
@@ -51,8 +51,7 @@ void Game::toggleTurn() {
 
 
 void Game::init() {
-    td = new TextDisplay;
-    b->init(td);
+    b->init(td.get());
     // server ports
     b->getCell(0,3)->setState('S');
     b->getCell(0,4)->setState('S');
@@ -183,7 +182,7 @@ std::ostream &operator<<(std::ostream &out, const Game &g) {
     out << "Abilities: " << g.p1->getNumAbilities() << endl;
     // printLinks
     out << "========" << endl;
-    out << g.b;
+    out << g.b.get();
     out << "========" << endl;
     out << "Player 1:" << endl;
     out << "Downloaded: " << g.p1->getNumData() << "D, " << g.p1->getNumVirus() << "V" << endl;
