@@ -23,3 +23,11 @@ class Board {
 };
 
 #endif
+
+// we made a change to theBoard[r][c]
+
+// theBoard[r][c].notifyObserver
+
+
+
+

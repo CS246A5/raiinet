@@ -9,6 +9,9 @@
 
 using namespace std;
 
+class Player;
+class Game;
+
 /* 
 Abilities:
 - L: Link Boost

@@ -57,7 +57,7 @@ int main() {
 
         if (command == "-link1") {
             string fileName;
-            char ids ['a','b','c','d','e','f','g','h'];
+            char ids[8] = {'a','b','c','d','e','f','g','h'};
             if (ss >> fileName) {
                 fstream f {fileName};
                 for (int i = 0; i < 8; ++i) {
@@ -74,8 +74,8 @@ int main() {
         // TODO: -link2
 
         if (command == "graphics") {
-            g.initPlayerOne(p1);
-            g.initPlayerTwo(p2);
+            g.initPlayerOne(&p1);
+            g.initPlayerTwo(&p2);
             g.init();
             cout << g << endl;
             break;
@@ -111,9 +111,11 @@ int main() {
         }
 
         if (command == "ability") {
+            // TODO: if ability has been used alrdy
             int index;
             ss >> index;
             g.useAbility(index);
+            usedAbility = true;
         }
 
         if (command == "board") {
