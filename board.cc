@@ -24,6 +24,10 @@ Cell* Board::getCell(int r, int c) {
     }
 }
 
+void Board::changeState(int r, int c, char newState) {
+    theBoard[r][c].setState(newState);
+}
+
 void Board::init(TextDisplay* td) {
     // Attach the TextDisplay observer to every Cell on theBoard
     for (int i = 0; i < 8; ++i) {
