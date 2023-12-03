@@ -22,6 +22,8 @@
 
 using namespace std;
 
+class Game;
+
 class Player {
     protected: 
         map<char,Link> links;

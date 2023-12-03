@@ -13,7 +13,12 @@ Player *Game::theirTurn(bool who) {
     else return &p2;
 }
 
-Game::Game() : td{new TextDisplay} {}
+Player *Game::getCurrentPlayer() {
+    return theirTurn(whoseTurn);
+}
+
+Game::Game() : td{new TextDisplay}, p1{Player{this}}, p2{Player{this}} {
+}
 
 Game::~Game() {}
 
