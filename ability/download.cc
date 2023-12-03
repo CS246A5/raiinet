@@ -1,6 +1,6 @@
 #include "download.h"
  // Constructor for download
-Download::Download() : Ability("Download") {
+Download::Download() : Ability("Download", theGame) {
    
 }
 

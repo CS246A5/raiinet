@@ -1,7 +1,7 @@
 #include "strengthboost.h"
 
 //create constructor
-StrengthBoost::StrengthBoost(): Ability("StrengthBoost") {}
+StrengthBoost::StrengthBoost(): Ability("StrengthBoost", theGame) {}
 
 //create destructor
 StrengthBoost::~StrengthBoost() {}
