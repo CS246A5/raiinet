@@ -4,6 +4,8 @@
 #include "textdisplay.h"
 #include "player.h"
 
+class Player;
+
 class Game {
     Player p1; // for more than two players, can do an arr/vec of players
     Player p2;
@@ -17,6 +19,7 @@ class Game {
     public:
     Game();
     ~Game();
+    Player *getCurrentPlayer();
     void initPlayerOne(Player player1);
     void initPlayerTwo(Player player2);
     bool checkFinished();   // check if the game has finished- check if any player

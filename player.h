@@ -22,6 +22,8 @@
 
 using namespace std;
 
+class Game;
+
 class Player {
     protected: 
         map<char,Link> links;
@@ -40,9 +42,10 @@ class Player {
         
         Player(Game* theGame); // must initialize all links
         ~Player();
-        int getNumData(); // how many downloaded data
-        int getNumVirus(); // how many downloaded virus
-        
+        int getNumData() const; // how many downloaded data
+        int getNumVirus() const; // how many downloaded virus
+        int getNumAbilities() const; //how many number of abilities there are
+
         void downloadLink(Link& currLink); //increment the number of data/virus downloaded
         Link& getLink(char id); // get link at id (a-h) or (A-H)
 
