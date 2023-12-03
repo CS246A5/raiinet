@@ -119,15 +119,16 @@ void Player::addLink(char id, string link) {
         int posX = 7;
         int posY = id - 'A' + 1;
         if (id == 'D' || id == 'E') posX -= 1;
-        links.emplace(id, new Link(posX, posY, strength, isData));
-        linkNames.emplace(id, link);
+        std::unique_ptr<Link> l  = std::make_unique<Link>(posX, posY, strength, isData);
+        links[id] = *l;
+        linkNames[id] = link;
     } else {
         int posX = 0;
         int posY = id - 'a' + 1;
         if (id == 'd' || id == 'e') posX += 1;
-        links.emplace(id, new Link(posX, posY, strength, isData));
-        // links[id] = 
-        linkNames.emplace(id, link);
+        std::unique_ptr<Link> l  = std::make_unique<Link>(posX, posY, strength, isData);
+        links[id] = *l;
+        linkNames[id] = link;
     }
 }
 
