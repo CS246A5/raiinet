@@ -1,4 +1,9 @@
+#include "ability.h"
 #include "linkboost.h"
+
+#include "../board.h"
+#include "../player.h"
+#include "../game.h"
 
 
  // Constructor for download

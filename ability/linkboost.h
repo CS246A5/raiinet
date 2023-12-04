@@ -1,8 +1,14 @@
+#ifndef _LINKBOOST_H_
+#define _LINKBOOST_H_
+#include "ability.h"
 #include <iostream>
 #include <string>
-#include "ability.h"
 
 using namespace std;
+class Ability;
+
+class Player;
+class Game;
 
 class LinkBoost : public Ability {
     // put private fields/methods here if needed
@@ -10,5 +16,8 @@ class LinkBoost : public Ability {
     public:
     LinkBoost();
     ~LinkBoost();
-    void activate(Player& player, Player& opponent ) override; // reads input and activates ability
+    void activate(Player& player, Player& opponent) override; // reads input and activates ability
 };
+
+
+#endif

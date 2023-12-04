@@ -1,13 +1,10 @@
+#include "ability.h"
 #include "firewall.h"
-#include "board.h" 
-#include "game.h"
-#include "player.h"
-#include "textdisplay.h"
-#include <iostream>
-#include <string>
+#include "../board.h"
+#include "../player.h"
+#include "../game.h"
 
-Firewall::Firewall() : Ability("Firewall", move(theGame)) {
-}
+Firewall::Firewall(): Ability("Firewall", move(theGame)) {}
 
 Firewall::~Firewall() {
 }
@@ -24,9 +21,8 @@ void Firewall::activate(Player& player, Player& opponent) {
 
         Board& gameBoard = Board::getInstance();
         Cell* selectedCell = gameBoard.getCell(row, col);
-
         if (selectedCell && selectedCell->getState() == '.') {
-            char firewallSymbol = game.getCurrentPlayer() == &player ? 'm' : 'w';
+            char firewallSymbol = theGame.get()->getCurrentPlayer() == &player ? 'm' : 'w';
             selectedCell->setState(firewallSymbol); // This will notify TextDisplay to update
 
         } else {
@@ -41,8 +37,8 @@ void Firewall::activate(Player& player, Player& opponent) {
     }
 }
 
-Board& Scan::getGameBoard() {
-    return Board::getInstance();
-}
+// Board& Scan::getGameBoard() {
+//     return Board::getInstance();
+// }
 
 
