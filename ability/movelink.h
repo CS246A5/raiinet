@@ -1,8 +1,10 @@
+#ifndef _MOVELINK_H_
+#define _MOVELINK_H_
 #include <iostream>
 #include <string>
-#include "ability.h"
 
 using namespace std;
+class Ability;
 
 class MoveLink : public Ability {
     // put private fields/methods here if needed
@@ -12,3 +14,5 @@ class MoveLink : public Ability {
     ~MoveLink();
     void activate(Player& player, Player& opponent )  override;// reads input and activates ability
 };
+
+#endif

@@ -1,5 +1,6 @@
+#include "ability.h"
 #include "scan.h"
-#include "board.h" 
+#include "../board.h" 
 #include <iostream>
 #include <string>
 
