@@ -1,4 +1,12 @@
+
+#include "ability.h"
+
+#include "../board.h"
+#include "../player.h"
 #include "download.h"
+
+using namespace std;
+
  // Constructor for download
 Download::Download() : Ability("Download", move(theGame)) {}
 

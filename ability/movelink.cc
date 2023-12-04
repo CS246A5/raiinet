@@ -1,3 +1,7 @@
+#include "ability.h"
+#include "../board.h"
+#include "../player.h"
+#include "../game.h"
 #include "movelink.h"
 
 

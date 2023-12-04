@@ -10,6 +10,7 @@
 
 using namespace std;
 
+class Ability;
 class Board {
     public:
     Cell theBoard[8][8]; // an 8-by-8 array of Cells

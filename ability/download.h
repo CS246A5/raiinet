@@ -4,9 +4,10 @@
 
 #include <iostream>
 #include <string>
-#include "ability.h"
 
 using namespace std;
+
+class Ability;
 
 class Download : public Ability {
     // put private fields/methods here if needed
