@@ -1,16 +1,19 @@
 #ifndef __CELL_H__
 #define __CELL_H__
 
-#include "observer.h"
 #include <vector>
 #include <string> // Include string explicitly
+#include "observer.h"
+#include "link.h"
+
+using namespace std;
 
 class Cell {
     char sym = '.'; // can be '.', 'w', 'm', 'a'-'g', 'A'-'G', etc.
     bool firewall = false;
     std::vector<Observer*> observers; // Collection of observers
     int r, c; // row, column
-    Link* link = nullptr; // Pointer to a Link, null if the cell is empty
+    unique_ptr<Link> link = make_unique<Link>(0, 0, 4, true); // Pointer to a Link, null if the cell is empty
 
 public:
     Cell(); // default constructor

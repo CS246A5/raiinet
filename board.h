@@ -20,7 +20,6 @@ class Board {
     void changeState(int r, int c, char newState); // changes the representative char at row r column c
     void init(TextDisplay *td); // attaches td as an observer to every Cell on theBoard
     friend std::ostream &operator<<(std::ostream &out, const Board &b);
-    void changeState(int r, int c, char newState);
 };
 
 #endif

@@ -1,3 +1,5 @@
+#ifndef _LINK_H_
+#define _LINK_H_
 #include <iostream>
 #include <string>
 
@@ -36,3 +38,5 @@ class Link {
         void moveS(); // move south
         void moveW(); // move west
 };
+
+#endif
