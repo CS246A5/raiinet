@@ -3,17 +3,20 @@
 
 #include <vector>
 #include <string> // Include string explicitly
+#include <memory>
 #include "observer.h"
 #include "link.h"
 
 using namespace std;
+
+class Link;
 
 class Cell {
     char sym = '.'; // can be '.', 'w', 'm', 'a'-'g', 'A'-'G', etc.
     bool firewall = false;
     std::vector<Observer*> observers; // Collection of observers
     int r, c; // row, column
-    unique_ptr<Link> link = make_unique<Link>(0, 0, 4, true); // Pointer to a Link, null if the cell is empty
+    unique_ptr<Link> link = make_unique<Link>(0, 0, 0, true); // Pointer to a Link, null if the cell is empty
 
 public:
     Cell(); // default constructor
@@ -24,7 +27,7 @@ public:
     int getRow() const; // returns r
     int getColumn() const; // returns c
     void setCoords(int r, int c); // set row and column numbers
-    void setLink(Link* linkObj);
+    void setLink(unique_ptr<Link> linkObj);
     Link* getLink() const;
 
 

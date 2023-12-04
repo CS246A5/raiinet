@@ -36,7 +36,7 @@ class Player {
     Ability convert(const char &ability) const; // converts from char to Ability
 
     public:  
-        Player(unique_ptr<Game> theGame); // must initialize all links
+        Player(Game* theGame); // must initialize all links
         ~Player();
         int getNumData() const; // how many downloaded data
         int getNumVirus() const; // how many downloaded virus

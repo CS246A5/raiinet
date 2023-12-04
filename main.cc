@@ -3,6 +3,7 @@
 #include <sstream>
 #include <fstream>
 #include <cstdlib>
+#include <memory>
 #include <ctime>
 #include "game.h"
 // #include "player.h"
@@ -11,8 +12,9 @@ using namespace std;
 
 int main() {
     Game g;
-    unique_ptr<Player> p1 = make_unique<Player>(&g);
-    unique_ptr<Player> p2 = make_unique<Player>(&g);
+    unique_ptr<Game> gp {&g};
+    unique_ptr<Player> p1 = make_unique<Player>(gp.get());
+    unique_ptr<Player> p2 = make_unique<Player>(gp.get());
 
     bool linksSpecifiedOne = false;
     bool linksSpecifiedTwo = false;
