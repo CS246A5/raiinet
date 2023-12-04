@@ -29,7 +29,7 @@ class Player {
     unique_ptr<Game> theGame;
     int numData; // # of downloaded data
     int numVirus; // # of downloaded viruses
-    Ability* abilities[5];
+    std::unique_ptr<Ability> abilities[5];
     vector<int> firewalls;
     map<char, string> linkNames;
 
