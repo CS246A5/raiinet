@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string>
 
-Firewall::Firewall(Game& gameRef) : game(gameRef), Ability("Firewall") {
+Firewall::Firewall() : Ability("Firewall", move(theGame)) {
 }
 
 Firewall::~Firewall() {
@@ -26,7 +26,7 @@ void Firewall::activate(Player& player, Player& opponent) {
         Cell* selectedCell = gameBoard.getCell(row, col);
 
         if (selectedCell && selectedCell->getState() == '.') {
-            char firewallSymbol = player.isPlayerOne() ? 'm' : 'w';
+            char firewallSymbol = game.getCurrentPlayer() == &player ? 'm' : 'w';
             selectedCell->setState(firewallSymbol); // This will notify TextDisplay to update
 
         } else {
