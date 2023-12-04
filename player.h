@@ -4,7 +4,6 @@
 #include <map>
 #include <iostream>
 #include <string>
-#include "ability/ability.h"
 #include "board.h"
 #include "link.h"
 #include "game.h"
@@ -29,14 +28,14 @@ class Player {
     unique_ptr<Game> theGame;
     int numData; // # of downloaded data
     int numVirus; // # of downloaded viruses
-    std::unique_ptr<Ability> abilities[5];
+    unique_ptr<Ability> abilities[5];
     vector<int> firewalls;
     map<char, string> linkNames;
 
     Ability convert(const char &ability) const; // converts from char to Ability
 
     public:  
-        Player(unique_ptr<Game> theGame); // must initialize all links
+        Player(Game* theGame); // must initialize all links
         ~Player();
         int getNumData() const; // how many downloaded data
         int getNumVirus() const; // how many downloaded virus

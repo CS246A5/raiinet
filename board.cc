@@ -14,14 +14,9 @@ Board& Board::getInstance() {
     static Board instance; // Create a single instance 
     return instance;
 }
+
 Board::~Board() {
     // Destructor logic if needed
-}
-
-// Define and initialize the static instance 
-Board& Board::getInstance() {
-    static Board instance; // Create a single instance 
-    return instance;
 }
 
 Cell* Board::getCell(int r, int c) {

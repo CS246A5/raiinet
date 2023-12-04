@@ -1,9 +1,10 @@
+#include "ability.h"
 #include "scan.h"
-#include "board.h" 
+#include "../board.h" 
 #include <iostream>
 #include <string>
 
-Scan::Scan() : Ability("Scan", theGame) {
+Scan::Scan() : Ability("Scan", move(theGame)) {
     // Constructor for Scan
 }
 

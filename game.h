@@ -13,8 +13,8 @@ class Player;
 class Board;
 
 class Game {
-    unique_ptr<Player> p1; // for more than two players, can do an arr/vec of players
-    unique_ptr<Player> p2;
+    unique_ptr<Player> p1 = make_unique<Player>(nullptr); // for more than two players, can do an arr/vec of players
+    unique_ptr<Player> p2 = make_unique<Player>(nullptr);
     unique_ptr<Board> b = make_unique<Board>();
     bool whoseTurn = true;     // true for playerOne, false for playerTwo 
                         // for more than two players, can make integer

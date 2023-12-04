@@ -1,3 +1,5 @@
+#ifndef _LINK_H_
+#define _LINK_H_
 #include <iostream>
 #include <string>
 
@@ -12,6 +14,7 @@ class Link {
     bool isDownloaded = false; //true if this link is downloadedwhen
 
     public:
+        Link();
         Link(int posX, int posY, int strength, bool isData);
         ~Link();
         int getPosX(); // returns the x-coordinate
@@ -36,3 +39,5 @@ class Link {
         void moveS(); // move south
         void moveW(); // move west
 };
+
+#endif

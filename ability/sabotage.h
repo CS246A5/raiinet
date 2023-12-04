@@ -1,8 +1,10 @@
+#ifndef _SABOTAGE_H_
+#define _SABOTAGE_H_
 #include <iostream>
 #include <string>
-#include "ability.h"
 
 using namespace std;
+class Ability;
 
 class Sabotage : public Ability {
     // put private fields/methods here if needed
@@ -12,3 +14,6 @@ class Sabotage : public Ability {
     ~Sabotage();
     void activate(Player& player, Player& opponent ) override; // reads input and activates ability
 };
+
+#endif
+

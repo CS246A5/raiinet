@@ -1,7 +1,7 @@
 #include "player.h"
 
 // constructor
-Player::Player(unique_ptr<Game> theGame): theGame{theGame.get()}, numData{0}, numVirus{0} {
+Player::Player(Game* theGame): theGame{theGame}, numData{0}, numVirus{0} {
     // initialize links and abilities and firewallls?
 }
 
@@ -69,7 +69,7 @@ Link& Player::getLink(char id) {
         // Handle the case when 'id' is not found in the map
         cout << "Wrong id, please reenter: ";
         cin >> newId;
-        getLink(newId);
+        return getLink(newId);
     }
 }
 
@@ -86,14 +86,13 @@ void Player::downloadLink(Link& currLink) {
 void Player::addAbility(char ability) {
     for (int i = 0; i < 5; i ++ ){
         switch (ability) {
-            case 'L': abilities[i] = make_unique<LinkBoost>();
-            case 'F': abilities[i] = make_unique<Firewall>();
-            case 'D': abilities[i] = make_unique<Download>();
-            case 'P': abilities[i] = make_unique<Polarize>();
-            case 'S': abilities[i] = make_unique< Scan>();
-            case 'M': abilities[i] = make_unique< MoveLink>() ;
-            case 'B': abilities[i] = make_unique< Sabotage>();
-            case 'T': abilities[i] = make_unique< StrengthBoost>();
+            case 'L': abilities[i] = make_unique<LinkBoost>(); break;
+            case 'F': abilities[i] = make_unique<Firewall>(); break;
+            case 'D': abilities[i] = make_unique<Download>(); break;
+            case 'S': abilities[i] = make_unique< Scan>(); break;
+            case 'M': abilities[i] = make_unique< MoveLink>() ; break;
+            case 'B': abilities[i] = make_unique< Sabotage>(); break;
+            case 'T': abilities[i] = make_unique< StrengthBoost>(); break;
         }
     }
 }
@@ -118,6 +117,7 @@ void Player::addLink(char id, string link) {
         std::unique_ptr<Link> l  = std::make_unique<Link>(posX, posY, strength, isData);
         links[id] = *l;
         linkNames[id] = link;
+    } else {
         int posX = 0;
         int posY = id - 'a' + 1;
         if (id == 'd' || id == 'e') posX += 1;
@@ -193,14 +193,15 @@ bool Player::moveLink(char id, char direction, bool isP1Turn) {
 // use an ability at the specified index
 bool Player::useAbility(int i, Player &opponent ) {
     if (i >= 0 && i < 5 && abilities[i] != nullptr) {
-        if(abilities[i]->checkUsed()) {
-            abilities[i]->activate(*this, opponent);
+        if(abilities[i].get()->checkUsed()) {
+            abilities[i].get()->activate(*this, opponent);
         }
         else {
             //cout << "This ability has already been used"  << endl;
             return false;
         }
     }
+    return true;
 }
 
 // print the available abilities

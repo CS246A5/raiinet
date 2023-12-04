@@ -1,4 +1,9 @@
+#include "ability.h"
 #include "sabotage.h"
+
+#include "../board.h"
+#include "../player.h"
+#include "../game.h"
 
 //create constructor
 Sabotage::Sabotage(): Ability("Sabotage", move(theGame)) {}

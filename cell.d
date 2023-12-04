@@ -1,1 +1,1 @@
-cell.o: cell.cc cell.h observer.h
+cell.o: cell.cc cell.h observer.h link.h

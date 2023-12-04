@@ -1,4 +1,9 @@
+#include "ability.h"
 #include "strengthboost.h"
+
+#include "../board.h"
+#include "../player.h"
+#include "../game.h"
 
 //create constructor
 StrengthBoost::StrengthBoost(): Ability("StrengthBoost", move(theGame)) {}

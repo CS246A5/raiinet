@@ -138,7 +138,7 @@ void Game::moveLink(char id, char dir) {
     }
 
     // if it lands on other player's firewall
-    else if (whoseTurn == true && b->getCell(posY, posX)->isPlayerTwoFirewall() ||
+    else if ((whoseTurn == true && b->getCell(posY, posX)->isPlayerTwoFirewall()) ||
         (whoseTurn == false && b->getCell(posY, posX)->isPlayerOneFirewall())) {
         curPlayer->getLink(id).reveal();
         if (curPlayer->getLink(id).checkIfData() == false) {

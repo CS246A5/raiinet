@@ -34,12 +34,12 @@ void Cell::setCoords(int row, int col) {
     r = row;
     c = col;
 }
-void Cell::setLink(Link* linkObj) {
-    link = linkObj;
+void Cell::setLink(unique_ptr<Link> linkObj) {
+    link = move(linkObj);
 }
 
 Link* Cell::getLink() const {  
-    return link;
+    return link.get();
 }
 
 
