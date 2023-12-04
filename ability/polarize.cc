@@ -6,7 +6,8 @@
 
 class Player;
 
-Polarize::Polarize() : Ability("Polarize", theGame) {
+Polarize::Polarize() : Ability("Polarize", move(theGame)) {
+
     // Constructor for Polarize
 }
 
