@@ -7,10 +7,6 @@ Player::Player(unique_ptr<Game> theGame): theGame{theGame.get()}, numData{0}, nu
 
 // destructor
 Player::~Player() {
-    // delete dynamically allocated abilities
-    for (int i = 0; i < 5; ++i) {
-        delete abilities[i];
-    }
 }
 
 // //  convert a character to an ability 
@@ -57,7 +53,7 @@ int Player::getNumVirus() const {
 int Player::getNumAbilities() const {
     int count = 0;
     for (int i = 0; i < 5; ++i) {
-        Ability* curr = abilities[i];
+        Ability* curr = abilities[i].get();
         if(!curr->checkUsed()) count++;
     }
     return count;
@@ -90,14 +86,14 @@ void Player::downloadLink(Link& currLink) {
 void Player::addAbility(char ability) {
     for (int i = 0; i < 5; i ++ ){
         switch (ability) {
-            case 'L': abilities[i] = new LinkBoost();
-            case 'F': abilities[i] = new Firewall();
-            case 'D': abilities[i] = new Download();
-            case 'P': abilities[i] = new Polarize();
-            case 'S': abilities[i] = new Scan();
-            case 'M': abilities[i] = new MoveLink() ;
-            case 'B': abilities[i] = new Sabotage();
-            case 'T': abilities[i] = new StrengthBoost();
+            case 'L': abilities[i] = make_unique<LinkBoost>();
+            case 'F': abilities[i] = make_unique<Firewall>();
+            case 'D': abilities[i] = make_unique<Download>();
+            case 'P': abilities[i] = make_unique<Polarize>();
+            case 'S': abilities[i] = make_unique< Scan>();
+            case 'M': abilities[i] = make_unique< MoveLink>() ;
+            case 'B': abilities[i] = make_unique< Sabotage>();
+            case 'T': abilities[i] = make_unique< StrengthBoost>();
         }
     }
 }
@@ -122,7 +118,6 @@ void Player::addLink(char id, string link) {
         std::unique_ptr<Link> l  = std::make_unique<Link>(posX, posY, strength, isData);
         links[id] = *l;
         linkNames[id] = link;
-    } else {
         int posX = 0;
         int posY = id - 'a' + 1;
         if (id == 'd' || id == 'e') posX += 1;
