@@ -4,11 +4,11 @@
 
 using namespace std;
 
-class Polarize : public Ability {
-    // put private fields/methods here if needed
-    
-    public:
+class Polarize : public Ability
+{
+
+public:
     Polarize();
     ~Polarize();
-     void activate(Player& player, Player& opponent )  override; // reads input and activates ability
+    void activate(Player &player, Player &opponent) override; // reads input and activates ability
 };
