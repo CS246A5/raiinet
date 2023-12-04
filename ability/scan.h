@@ -6,6 +6,8 @@ using namespace std;
 
 class Scan : public Ability {
     // put private fields/methods here if needed
+    protected:
+    Board& getGameBoard(); 
     
     public:
     Scan();

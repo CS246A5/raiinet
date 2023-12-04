@@ -2,7 +2,7 @@
 
 
 //create constructor
-MoveLink::MoveLink(): Ability("Move Link", theGame) {}
+MoveLink::MoveLink(): Ability("Move Link", move(theGame)) {}
 
 //create destructor
 MoveLink::~MoveLink() {}

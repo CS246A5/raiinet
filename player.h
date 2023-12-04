@@ -26,7 +26,7 @@ class Game;
 
 class Player {
     map<char,Link> links;
-    Game *theGame;
+    unique_ptr<Game> theGame;
     int numData; // # of downloaded data
     int numVirus; // # of downloaded viruses
     Ability* abilities[5];
@@ -35,11 +35,8 @@ class Player {
 
     Ability convert(const char &ability) const; // converts from char to Ability
 
-    public:
-        enum class theAbilities { LINKBOOST, FIREWALL, DOWNLOAD, POLARIZE, 
-                                    SCAN, MOVELINK, SABOTAGE, STRENGTHBOOST };
-        
-        Player(Game* theGame); // must initialize all links
+    public:  
+        Player(unique_ptr<Game> theGame); // must initialize all links
         ~Player();
         int getNumData() const; // how many downloaded data
         int getNumVirus() const; // how many downloaded virus

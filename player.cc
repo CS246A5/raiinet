@@ -1,7 +1,7 @@
 #include "player.h"
 
 // constructor
-Player::Player(Game *theGame): theGame{theGame}, numData{0}, numVirus{0} {
+Player::Player(unique_ptr<Game> theGame): theGame{theGame.get()}, numData{0}, numVirus{0} {
     // initialize links and abilities and firewallls?
 }
 

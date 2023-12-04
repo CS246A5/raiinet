@@ -1,5 +1,6 @@
 #include "cell.h"
 #include "observer.h"
+#include "link.h"
 
 // Default constructor
 Cell::Cell() : sym('.'), firewall(false), r(-1), c(-1) {}
@@ -33,6 +34,15 @@ void Cell::setCoords(int row, int col) {
     r = row;
     c = col;
 }
+void Cell::setLink(Link* linkObj) {
+    link = linkObj;
+}
+
+Link* Cell::getLink() const {  
+    return link;
+}
+
+
 void Cell::attach(Observer* o) {
     observers.push_back(o);
 }
