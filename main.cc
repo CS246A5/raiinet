@@ -6,7 +6,8 @@
 #include <memory>
 #include <ctime>
 #include "game.h"
-// #include "player.h"
+#include "player.h"
+#include "ability/ability.h"
 
 using namespace std;
 
@@ -19,9 +20,9 @@ int main() {
     bool linksSpecifiedOne = false;
     bool linksSpecifiedTwo = false;
 
-    cout << "Welcome to RAIInet!" << endl;
+    std::cout << "Welcome to RAIInet!" << endl;
     // setup
-    cout << "starting setup." << endl;
+    std::cout << "starting setup." << endl;
     
     string line;
     while (getline(cin, line)) {
@@ -93,7 +94,7 @@ int main() {
             g.initPlayerOne(move(p1));
             g.initPlayerTwo(move(p2));
             g.init();
-            cout << g << endl;
+            std::cout << g << endl;
             break;
         }
     }
@@ -140,8 +141,7 @@ int main() {
             ss >> direction;
             // directions can be 'n', 'e', 's', 'w'
             g.moveLink(linkId, direction);
-            g.updateBoard();
-            cout << g;
+            std::cout << g;
             g.toggleTurn();
         }
 
@@ -161,7 +161,7 @@ int main() {
         }
 
         if (command == "board") {
-            cout << g;
+            std::cout << g;
         }
 
         if (command == "sequence") {
@@ -179,7 +179,7 @@ int main() {
             break;
         }
     }   
-    cout << "BYEEE";
+    std::cout << "BYEEE";
 }
 
 

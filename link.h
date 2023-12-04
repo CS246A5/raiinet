@@ -14,6 +14,7 @@ class Link {
     bool isDownloaded = false; //true if this link is downloadedwhen
 
     public:
+        Link();
         Link(int posX, int posY, int strength, bool isData);
         ~Link();
         int getPosX(); // returns the x-coordinate

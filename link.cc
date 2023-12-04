@@ -1,5 +1,8 @@
 #include "link.h"
 
+// Default ctor
+Link::Link() : posX{-1}, posY{-1}, strength{0}, isData{true} {}
+
 // Constructor 
 Link::Link(int x, int y, int str, bool data) : posX(x), posY(y), strength(str), isData(data) {}
 

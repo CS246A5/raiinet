@@ -118,6 +118,7 @@ void Player::addLink(char id, string link) {
         std::unique_ptr<Link> l  = std::make_unique<Link>(posX, posY, strength, isData);
         links[id] = *l;
         linkNames[id] = link;
+    } else {
         int posX = 0;
         int posY = id - 'a' + 1;
         if (id == 'd' || id == 'e') posX += 1;
