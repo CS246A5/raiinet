@@ -1,9 +1,9 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
+#include <vector>
+#include <map>
 #include <iostream>
 #include <string>
-#include <map>
-#include <vector>
 #include "ability/ability.h"
 #include "board.h"
 #include "link.h"
@@ -25,8 +25,7 @@ using namespace std;
 class Game;
 
 class Player {
-    protected: 
-        map<char,Link> links;
+    map<char,Link> links;
     Game *theGame;
     int numData; // # of downloaded data
     int numVirus; // # of downloaded viruses

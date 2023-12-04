@@ -1,5 +1,4 @@
 #include "textdisplay.h"
-#include "cell.h"
 
 using namespace std;
 

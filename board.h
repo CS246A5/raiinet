@@ -1,3 +1,6 @@
+#ifndef _BOARD_H_
+#define _BOARD_H_
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -17,4 +20,15 @@ class Board {
     void changeState(int r, int c, char newState); // changes the representative char at row r column c
     void init(TextDisplay *td); // attaches td as an observer to every Cell on theBoard
     friend std::ostream &operator<<(std::ostream &out, const Board &b);
+    void changeState(int r, int c, char newState);
 };
+
+#endif
+
+// we made a change to theBoard[r][c]
+
+// theBoard[r][c].notifyObserver
+
+
+
+

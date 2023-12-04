@@ -4,7 +4,9 @@
 #include <string>
 #include <stdexcept>
 
-Polarize::Polarize(Player& playerRef) : Ability("Polarize"), player(playerRef) {
+class Player;
+
+Polarize::Polarize() : Ability("Polarize", move(theGame)) {
     // Constructor for Polarize
 }
 

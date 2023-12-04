@@ -1,7 +1,7 @@
 #include "player.h"
 
 // constructor
-Player::Player(Game *theGame): numData{0}, numVirus{0}, theGame{theGame} {
+Player::Player(Game *theGame): theGame{theGame}, numData{0}, numVirus{0} {
     // initialize links and abilities and firewallls?
 }
 
@@ -113,20 +113,22 @@ void Player::addLink(char id, string link) {
 
     char cIsData = link[0];
     bool isData = true;
-    if (cIsData = 'V') isData = false;
+    if (cIsData == 'V') isData = false;
  
     if(std::isupper(id)){
         int posX = 7;
         int posY = id - 'A' + 1;
         if (id == 'D' || id == 'E') posX -= 1;
-        links.emplace(id, new Link(posX, posY, strength, isData));
-        linkNames.emplace(id, link);
+        std::unique_ptr<Link> l  = std::make_unique<Link>(posX, posY, strength, isData);
+        links[id] = *l;
+        linkNames[id] = link;
     } else {
         int posX = 0;
         int posY = id - 'a' + 1;
         if (id == 'd' || id == 'e') posX += 1;
-        links.emplace(id, new Link(posX, posY, strength, isData));
-        linkNames.emplace(id, link);
+        std::unique_ptr<Link> l  = std::make_unique<Link>(posX, posY, strength, isData);
+        links[id] = *l;
+        linkNames[id] = link;
     }
 }
 
@@ -153,7 +155,7 @@ bool Player::moveLink(char id, char direction, bool isP1Turn) {
     //check illegal moves
     //check if onto own links
     for (auto& p : links) {
-        if (id = p.first) break; //if it is the link itself - should not check
+        if (id == p.first) break; //if it is the link itself - should not check
         Link& otherLink = p.second;
         int otherX = otherLink.getPosX();
         int otherY = otherLink.getPosY();
@@ -229,4 +231,5 @@ std::ostream &operator<<(std::ostream &out, const Player &p) {
         out << p.first << ": " << p.second << " ";
         if (count == 4) out << endl;
     }
+    return out;
 }
