@@ -1,13 +1,9 @@
 #include "download.h"
  // Constructor for download
-Download::Download() : Ability("Download") {
-   
-}
+Download::Download() : Ability("Download", move(theGame)) {}
 
 //create destructor
-Download::~Download() {
-
-}
+Download::~Download() {}
 
 //create activate
 

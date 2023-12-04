@@ -1,16 +1,12 @@
 #include "player.h"
 
 // constructor
-Player::Player(Game *theGame): numData{0}, numVirus{0}, theGame{theGame} {
+Player::Player(unique_ptr<Game> theGame): theGame{theGame.get()}, numData{0}, numVirus{0} {
     // initialize links and abilities and firewallls?
 }
 
 // destructor
 Player::~Player() {
-    // delete dynamically allocated abilities
-    for (int i = 0; i < 5; ++i) {
-        delete abilities[i];
-    }
 }
 
 // //  convert a character to an ability 
@@ -57,7 +53,7 @@ int Player::getNumVirus() const {
 int Player::getNumAbilities() const {
     int count = 0;
     for (int i = 0; i < 5; ++i) {
-        Ability* curr = abilities[i];
+        Ability* curr = abilities[i].get();
         if(!curr->checkUsed()) count++;
     }
     return count;
@@ -90,14 +86,14 @@ void Player::downloadLink(Link& currLink) {
 void Player::addAbility(char ability) {
     for (int i = 0; i < 5; i ++ ){
         switch (ability) {
-            case 'L': abilities[i] = new LinkBoost();
-            case 'F': abilities[i] = new Firewall();
-            case 'D': abilities[i] = new Download();
-            case 'P': abilities[i] = new Polarize();
-            case 'S': abilities[i] = new Scan();
-            case 'M': abilities[i] = new MoveLink() ;
-            case 'B': abilities[i] = new Sabotage();
-            case 'T': abilities[i] = new StrengthBoost();
+            case 'L': abilities[i] = make_unique<LinkBoost>();
+            case 'F': abilities[i] = make_unique<Firewall>();
+            case 'D': abilities[i] = make_unique<Download>();
+            case 'P': abilities[i] = make_unique<Polarize>();
+            case 'S': abilities[i] = make_unique< Scan>();
+            case 'M': abilities[i] = make_unique< MoveLink>() ;
+            case 'B': abilities[i] = make_unique< Sabotage>();
+            case 'T': abilities[i] = make_unique< StrengthBoost>();
         }
     }
 }
@@ -113,20 +109,21 @@ void Player::addLink(char id, string link) {
 
     char cIsData = link[0];
     bool isData = true;
-    if (cIsData = 'V') isData = false;
+    if (cIsData == 'V') isData = false;
  
     if(std::isupper(id)){
         int posX = 7;
         int posY = id - 'A' + 1;
         if (id == 'D' || id == 'E') posX -= 1;
-        links.emplace(id, new Link(posX, posY, strength, isData));
-        linkNames.emplace(id, link);
-    } else {
+        std::unique_ptr<Link> l  = std::make_unique<Link>(posX, posY, strength, isData);
+        links[id] = *l;
+        linkNames[id] = link;
         int posX = 0;
         int posY = id - 'a' + 1;
         if (id == 'd' || id == 'e') posX += 1;
-        links.emplace(id, new Link(posX, posY, strength, isData));
-        linkNames.emplace(id, link);
+        std::unique_ptr<Link> l  = std::make_unique<Link>(posX, posY, strength, isData);
+        links[id] = *l;
+        linkNames[id] = link;
     }
 }
 
@@ -153,7 +150,7 @@ bool Player::moveLink(char id, char direction, bool isP1Turn) {
     //check illegal moves
     //check if onto own links
     for (auto& p : links) {
-        if (id = p.first) break; //if it is the link itself - should not check
+        if (id == p.first) break; //if it is the link itself - should not check
         Link& otherLink = p.second;
         int otherX = otherLink.getPosX();
         int otherY = otherLink.getPosY();
@@ -229,4 +226,5 @@ std::ostream &operator<<(std::ostream &out, const Player &p) {
         out << p.first << ": " << p.second << " ";
         if (count == 4) out << endl;
     }
+    return out;
 }

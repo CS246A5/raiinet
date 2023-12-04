@@ -1,17 +1,27 @@
 #include "board.h"
-#include "textdisplay.h"
+
 
 Board::Board() {
-    // Initialize the board cells, you can add your logic here
+    // Initialize the board cells
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
             theBoard[i][j].setCoords(i, j);
         }
     }
 }
-
+// Define and initialize the static instance 
+Board& Board::getInstance() {
+    static Board instance; // Create a single instance 
+    return instance;
+}
 Board::~Board() {
     // Destructor logic if needed
+}
+
+// Define and initialize the static instance 
+Board& Board::getInstance() {
+    static Board instance; // Create a single instance 
+    return instance;
 }
 
 Cell* Board::getCell(int r, int c) {
@@ -28,6 +38,7 @@ void Board::changeState(int r, int c, char newState) {
     theBoard[r][c].setState(newState);
 }
 
+
 void Board::init(TextDisplay* td) {
     // Attach the TextDisplay observer to every Cell on theBoard
     for (int i = 0; i < 8; ++i) {
@@ -39,6 +50,12 @@ void Board::init(TextDisplay* td) {
 
 std::ostream& operator<<(std::ostream& out, const Board& b) {
     // Implement the operator<< to display the board as needed
-    // You can access the cells using b.theBoard[r][c]
+    for (int i = 0; i < 8; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            // Access the cell's state and display it
+            out << b.theBoard[i][j].getState();
+        }
+        out << std::endl; // Add a newline after each row
+    }
     return out;
 }
