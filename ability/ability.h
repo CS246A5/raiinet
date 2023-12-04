@@ -30,9 +30,9 @@ class Ability {
     string abilityName;  // the name of the ability: Move Link, Sabotage, etc.
     protected:
         void setUsed(bool value);
-        Game *theGame;
+        unique_ptr<Game> theGame;
     public:
-        Ability(const string& name, Game *theGame); // ctor, might need fields for initialization
+        Ability(const string& name, unique_ptr<Game> theGame); // ctor, might need fields for initialization
         virtual ~Ability() = 0;
         virtual void activate(Player& player, Player& opponent ) = 0; // pure virtual function
         int getId() const;                 // returns the id of the ability

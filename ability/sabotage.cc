@@ -1,7 +1,7 @@
 #include "sabotage.h"
 
 //create constructor
-Sabotage::Sabotage(): Ability("Sabotage", theGame) {}
+Sabotage::Sabotage(): Ability("Sabotage", move(theGame)) {}
 
 //create destructor
 Sabotage::~Sabotage() {}
