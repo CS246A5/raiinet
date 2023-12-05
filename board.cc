@@ -43,6 +43,7 @@ void Board::init(TextDisplay* td, GraphicsDisplay* gd) {
             theBoard[i][j].attach(gd);
         }
     }
+    
 }
 
 std::ostream& operator<<(std::ostream& out, const Board& b) {
