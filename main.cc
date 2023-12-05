@@ -11,7 +11,7 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, char* argv[]) {
     Game g;
     unique_ptr<Game> gp {&g};
     unique_ptr<Player> p1 = make_unique<Player>(gp.get());
@@ -24,6 +24,13 @@ int main() {
     // setup
     std::cout << "starting setup." << endl;
     
+    for (int i = 0; i < argc; ++i) {
+        
+    }
+
+
+
+
     string line;
     while (getline(cin, line)) {
         stringstream ss{line};
@@ -91,35 +98,34 @@ int main() {
         }
 
         if (command == "graphics") {
+            // if the links are not specified for each player
+            if (!linksSpecifiedOne) {
+                char ids[8] = {'a','b','c','d','e','f','g','h'};
+                vector<string> theLinks = {"D1", "D2", "D3", "D4", "V1", "V2", "V3", "V4"};
+                for (int i = 0; i < 8; ++i) {
+                    srand((int)time(0)); // seed for random based on time
+                    int index = (rand() % (8-i)); // get index of the link we take from theLinks randomly
+                    p1->addLink(ids[i], theLinks[index]); // add this link to p1's links
+                    theLinks.erase(theLinks.begin()+index); // remove this link from theLinks so no duplicate
+                } // for
+            }
+
+            else if (!linksSpecifiedTwo) {
+                char ids[8] = {'A','B','C','D','E','F','G','H'};
+                vector<string> theLinks = {"D1", "D2", "D3", "D4", "V1", "V2", "V3", "V4"};
+                for (int i = 0; i < 8; ++i) {
+                    srand((int)time(0)); // seed for random based on time
+                    int index = (rand() % (8-i)); // get index of the link we take from theLinks randomly
+                    p2->addLink(ids[i], theLinks[index]); // add this link to p1's links
+                    theLinks.erase(theLinks.begin()+index); // remove this link from theLinks so no duplicate
+                } // for
+            }
             g.initPlayerOne(move(p1));
             g.initPlayerTwo(move(p2));
             g.init();
             std::cout << g << endl;
             break;
         }
-    }
-
-    // if the links are not specified for each player
-    if (!linksSpecifiedOne) {
-        char ids[8] = {'a','b','c','d','e','f','g','h'};
-        vector<string> theLinks = {"D1", "D2", "D3", "D4", "V1", "V2", "V3", "V4"};
-        for (int i = 0; i < 8; ++i) {
-            srand((int)time(0)); // seed for random based on time
-            int index = (rand() % (8-i)); // get index of the link we take from theLinks randomly
-            p1->addLink(ids[i], theLinks[index]); // add this link to p1's links
-            theLinks.erase(theLinks.begin()+index); // remove this link from theLinks so no duplicate
-        } // for
-    }
-
-    else if (!linksSpecifiedTwo) {
-        char ids[8] = {'A','B','C','D','E','F','G','H'};
-        vector<string> theLinks = {"D1", "D2", "D3", "D4", "V1", "V2", "V3", "V4"};
-        for (int i = 0; i < 8; ++i) {
-            srand((int)time(0)); // seed for random based on time
-            int index = (rand() % (8-i)); // get index of the link we take from theLinks randomly
-            p2->addLink(ids[i], theLinks[index]); // add this link to p1's links
-            theLinks.erase(theLinks.begin()+index); // remove this link from theLinks so no duplicate
-        } // for
     }
 
         // setup finished
