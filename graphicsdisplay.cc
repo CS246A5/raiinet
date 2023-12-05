@@ -12,7 +12,7 @@
 using namespace std;
 
 // creates an nxn display
-GraphicsDisplay::GraphicsDisplay(Xwindow &w, Game& g) : w{w}, size{0} {
+GraphicsDisplay::GraphicsDisplay(Xwindow &w, Game& g) : w{w}, g{g} {
     w.fillRectangle(0, 0, 500, 500, 1);
     // Display Player 1
     Player* currentPlayer1 = g.theirTurn(true);
