@@ -17,7 +17,7 @@ Download::~Download() {}
 
 void Download::activate(Player& player, Player& opponent ) { 
     // Read input to determine which link to download 
-    //cout << "Enter the ID of the link you want to download: ";
+    cout << "Enter the ID of the opponent link you want to download: ";
     char id;
 
     while (true) {

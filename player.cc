@@ -67,7 +67,8 @@ Link& Player::getLink(char id) {
     } else {
         char newId;
         // Handle the case when 'id' is not found in the map
-        cout << "Wrong id, please reenter: ";
+        cout << "Wrong id, please re-enter: " << endl;
+        cin.ignore();
         cin >> newId;
         return getLink(newId);
     }
@@ -84,16 +85,23 @@ void Player::downloadLink(Link& currLink) {
 
 // add an ability based on the given character
 void Player::addAbility(char ability) {
-    for (int i = 0; i < 5; i ++ ){
-        switch (ability) {
-            case 'L': abilities[i] = make_unique<LinkBoost>(); break;
-            case 'F': abilities[i] = make_unique<Firewall>(); break;
-            case 'D': abilities[i] = make_unique<Download>(); break;
-            case 'S': abilities[i] = make_unique< Scan>(); break;
-            case 'M': abilities[i] = make_unique< MoveLink>() ; break;
-            case 'B': abilities[i] = make_unique< Sabotage>(); break;
-            case 'T': abilities[i] = make_unique< StrengthBoost>(); break;
+    int addCount = 0;
+    for (int i = 0; i < 5; i++) {
+        if (!abilities[i]) {
+            addCount = 1;
+             switch (ability) {
+                case 'L': abilities[i] = make_unique<LinkBoost>(); break;
+                case 'F': abilities[i] = make_unique<Firewall>(); break;
+                case 'D': abilities[i] = make_unique<Download>(); break;
+                case 'S': abilities[i] = make_unique<Scan>(); break;
+                case 'P': abilities[i] = make_unique<Polarize>(); break;
+                case 'M': abilities[i] = make_unique<MoveLink>(); break;
+                case 'B': abilities[i] = make_unique<Sabotage>(); break;
+                case 'T': abilities[i] = make_unique<StrengthBoost>(); break;
+            }
+            break;
         }
+        if (addCount == 1) break;
     }
 }
 
@@ -193,11 +201,11 @@ bool Player::moveLink(char id, char direction, bool isP1Turn) {
 // use an ability at the specified index
 bool Player::useAbility(int i, Player &opponent ) {
     if (i >= 0 && i < 5 && abilities[i] != nullptr) {
-        if(abilities[i].get()->checkUsed()) {
+        if(!abilities[i].get()->checkUsed()) {
             abilities[i].get()->activate(*this, opponent);
         }
         else {
-            //cout << "This ability has already been used"  << endl;
+            cout << "This ability has already been used"  << endl;
             return false;
         }
     }
@@ -209,11 +217,11 @@ void Player::printAbilities() {
     cout << "Available Abilities: ";
     for (int i = 0; i < 5; ++i) {
         if (abilities[i] != nullptr) {
-            string ifUsed = "has not been used";
+            string ifUsed = "✓";
             if (abilities[i]->checkUsed()){
-                ifUsed = "has been used";
+                ifUsed = "x";
             }
-            cout << abilities[i]->getAbility() << " " << abilities[i]->checkUsed() <<" ";
+            cout << abilities[i]->getAbility() << " " << ifUsed << "; ";
         }
     }
     cout << endl;

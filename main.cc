@@ -162,7 +162,7 @@ int main(int argc, char* argv[]) {
             }
             int index;
             ss >> index;
-            g.useAbility(index);
+            g.useAbility(index-1);
             usedAbility = true;
         }
 

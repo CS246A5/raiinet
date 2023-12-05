@@ -29,7 +29,7 @@ int Cell::getRow() const {
 int Cell::getColumn() const {
     return c;
 }
-
+ 
 void Cell::setCoords(int row, int col) {
     r = row;
     c = col;
