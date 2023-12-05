@@ -45,6 +45,7 @@ void Board::init(TextDisplay* td) {
 
 std::ostream& operator<<(std::ostream& out, const Board& b) {
     // Implement the operator<< to display the board as needed
+    out << "========" << endl;
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
             // Access the cell's state and display it
@@ -52,5 +53,5 @@ std::ostream& operator<<(std::ostream& out, const Board& b) {
         }
         out << std::endl; // Add a newline after each row
     }
-    return out;
+    return out << "========" << endl;;
 }

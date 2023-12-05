@@ -93,6 +93,7 @@ void Game::init()
 // uses the current player's ability at index i (0-4)
 void Game::useAbility(int i)
 {
+    if (i < 0 || i > 5) throw logic_error {"Ability index out of range. Try again."};
     Player *curPlayer = theirTurn(whoseTurn);
     Player *opponent = theirTurn(!whoseTurn);
     curPlayer->useAbility(i, *opponent);
@@ -210,12 +211,12 @@ void Game::moveLink(char id, char dir)
         {
             curPlayer->downloadLink(curPlayer->getPureLink(id));
         }
-        b->theBoard[posY][posX].setState(id);
+        else b->theBoard[posY][posX].setState(id);
     }
 
     // if it lands on other player's link = BATTLE!!
     // the only cell states left should be '.' and '[link]'
-    if (b->getCell(posY, posX)->getState() != '.')
+    else if (b->getCell(posY, posX)->getState() != '.')
     {
         char linkState = b->getCell(posY, posX)->getState();
         if ((whoseTurn == true && (linkState == 'a' || linkState == 'b' || linkState == 'c' 
@@ -302,16 +303,14 @@ std::ostream &operator<<(std::ostream &out, const Game &g)
     }
     out << endl;
 
-    out << "========" << endl;
     if (g.b)
     {                  // check if the smart pointer actually points to an object
         out << *(g.b); // dereference the smart pointer to get the Board object
     }
     else
     {
-        out << "Board not initialized.";
+        out << "Board not initialized." << endl;
     }
-    out << "========" << endl;
     out << "Player 2:" << endl;
     out << "Downloaded: " << g.p2->getNumData() << "D, " << g.p2->getNumVirus() << "V" << endl;
     out << "Abilities: " << g.p2->getNumAbilities() << endl;

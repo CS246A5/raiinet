@@ -38,6 +38,9 @@ Player::~Player() {
 // }
 
 
+Game *Player::getGame() {
+    return theGame;
+}
 
 // getter for the number of downloaded data
 int Player::getNumData() const {
@@ -94,7 +97,7 @@ void Player::addAbility(char ability) {
     for (int i = 0; i < 5; i++) {
         if (!abilities[i]) {
             addCount = 1;
-             switch (ability) {
+            switch (ability) {
                 case 'L': abilities[i] = make_unique<LinkBoost>(); break;
                 case 'F': abilities[i] = make_unique<Firewall>(); break;
                 case 'D': abilities[i] = make_unique<Download>(); break;
@@ -122,7 +125,7 @@ void Player::addLink(char id, string link) {
     char cIsData = link[0];
     bool isData = true;
     if (cIsData == 'V') isData = false;
- 
+
     if(std::isupper(id)){
         int posY = 7;
         int posX = id - 'A';
@@ -204,17 +207,15 @@ void Player::moveLink(char id, char direction, bool isP1Turn) {
 } //moveLink
 
 // use an ability at the specified index
-bool Player::useAbility(int i, Player &opponent ) {
+void Player::useAbility(int i, Player &opponent ) {
     if (i >= 0 && i < 5 && abilities[i] != nullptr) {
         if(!abilities[i].get()->checkUsed()) {
             abilities[i].get()->activate(*this, opponent);
         }
         else {
-            cout << "This ability has already been used"  << endl;
-            return false;
+            throw logic_error {"This ability has already been used"};
         }
     }
-    return true;
 }
 
 // print the available abilities
