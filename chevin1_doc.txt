@@ -1,0 +1,25 @@
+Test Case 1 Explanation 
+- This test case initializes the game and display for Player 1 
+- The initial board setup is from the perspective of player 1 
+- Player 2's links are hidden 
+
+.in 
+- -ability1 LFDSP -ability2 LFDSP -link1 placement_file1.txt -link2 placement_file2.txt
+- -ability1 LFDSP: list of abilities player1 will use (in the default order of: Link boost, Firewall, Download, Scan, Polarize)
+-                  this should work the same if no order was specified. (hint: default ctor MIL !!)
+- -ability2 LFDSP: same as above but for player2
+- -link1 placement_file1.txt: txt file lists what each link should be for player 1 (V1 D4 V3 V2 D3 V4 D2 D1)
+- -link2 placement_file2.txt: txt file lists what each link should be for player 2 (D1 V4 D2 V3 V2 D3 V1 D4)
+- board: command to display the board
+
+.out 
+
+player 1's side: shows player1's stuff 
+
+board:
+- 8x8 grid intialization where each row and column represents a space where a link can be placed or moved. 
+- SS: sever ports 
+- abcSSfgh: a,b,c,d,e,f,g,h are different links that player1 controls (each with specific attributes; virus or data, strength)
+- ABCSSFGH: A,B,C,D,E,F,G,H are different links that player2 controls (each with specific attributes; virus or data, strength)
+
+player 2's side: shows what player1 knows about player2.
