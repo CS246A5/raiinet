@@ -60,9 +60,12 @@ void Game::toggleTurn()
     whoseTurn = !whoseTurn;
 }
 
-void Game::init()
-{
-    b->init(td.get());
+void Game::init(Xwindow &w)
+{   
+    //graphic display creation
+    unique_ptr<GraphicsDisplay> gd = make_unique<GraphicsDisplay>(w, *this);
+
+    b->init(td.get(), gd.get());
     // server ports
     b->getCell(0, 3)->setState('S');
     b->getCell(0, 4)->setState('S');
@@ -88,6 +91,9 @@ void Game::init()
     b->getCell(7, 5)->setState('F');
     b->getCell(7, 6)->setState('G');
     b->getCell(7, 7)->setState('H');
+
+    
+    
 }
 
 // uses the current player's ability at index i (0-4)

@@ -16,6 +16,7 @@ int main(int argc, char* argv[]) {
     unique_ptr<Game> gp = make_unique<Game> ();
     unique_ptr<Player> p1 = make_unique<Player>(gp.get());
     unique_ptr<Player> p2 = make_unique<Player>(gp.get());
+    Xwindow w;
 
     std::cout << "Welcome to RAIInet!" << endl;
     // setup
@@ -82,7 +83,7 @@ int main(int argc, char* argv[]) {
         }
 
         else if (command == "-graphics") {
-            Xwindow w;
+            
             gp->enableGD();
         }
     } // for loop
@@ -112,7 +113,7 @@ int main(int argc, char* argv[]) {
 
     gp->initPlayerOne(move(p1));
     gp->initPlayerTwo(move(p2));
-    gp->init();
+    gp->init(w);
     std::cout << *gp << endl;
 
     std::cout << "Player 1's turn." << endl;
