@@ -13,8 +13,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    Game g;
-    unique_ptr<Game> gp {&g};
+    unique_ptr<Game> gp = make_unique<Game> ();
     unique_ptr<Player> p1 = make_unique<Player>(gp.get());
     unique_ptr<Player> p2 = make_unique<Player>(gp.get());
 
@@ -84,7 +83,7 @@ int main(int argc, char* argv[]) {
 
         else if (command == "-graphics") {
             Xwindow w;
-            g.enableGD();
+            gp->enableGD();
         }
     } // for loop
 
@@ -111,10 +110,10 @@ int main(int argc, char* argv[]) {
         } // for
     }
 
-    g.initPlayerOne(move(p1));
-    g.initPlayerTwo(move(p2));
-    g.init();
-    std::cout << g << endl;
+    gp->initPlayerOne(move(p1));
+    gp->initPlayerTwo(move(p2));
+    gp->init();
+    std::cout << *gp << endl;
 
     std::cout << "Player 1's turn." << endl;
 
@@ -125,35 +124,35 @@ int main(int argc, char* argv[]) {
 
     while (cin >> command) {
         try {
-            if (g.checkFinished()) { // Game::checkFinished might produce output
+            if (gp->checkFinished()) { // Game::checkFinished might produce output
                 cout << "GAME FINISHED." << endl;
-                break;
+                return 0;
             }
             if (command == "move") {
                 char linkId;
                 char direction;
                 cin >> linkId >> direction;
                 // directions can be 'north', 'east', 'south', 'west'
-                g.moveLink(linkId, direction); // (*) check valid id, direction, 
+                gp->moveLink(linkId, direction); // (*) check valid id, direction, 
                 // check if finished
-                if (g.checkFinished()) {
+                if (gp->checkFinished()) {
                     cout << "GAME FINISHED." << endl;
-                    break;
+                    return 0;
                 }
 
-                g.toggleTurn();
-                std::cout << g;
+                gp->toggleTurn();
+                std::cout << *gp;
                 
                 usedAbility = false;
                     // print whose turn
-                if (g.checkWhoseTurn()) std::cout << "Player 1's turn." << endl;
+                if (gp->checkWhoseTurn()) std::cout << "Player 1's turn." << endl;
                 else std::cout << "Player 2's turn." << endl;
                 // if one of curPlayer's links are sabotaged, play game to fix it
-                g.getCurrentPlayer()->hasSabotagedLink();
+                gp->getCurrentPlayer()->hasSabotagedLink();
             }
 
             else if (command == "abilities") {
-                g.printAbilities();
+                gp->printAbilities();
             }
 
             else if (command == "ability") {
@@ -162,12 +161,12 @@ int main(int argc, char* argv[]) {
                 }
                 int index;
                 cin >> index;
-                g.useAbility(index-1); // (*) check valid index, not used yet
+                gp->useAbility(index-1); // (*) check valid index, not used yet
                 usedAbility = true; // ability has now been used this turn
             }
 
             else if (command == "board") {
-                std::cout << g;
+                std::cout << *gp;
             }
 
             else if (command == "sequence") {
@@ -181,35 +180,37 @@ int main(int argc, char* argv[]) {
                 }
 
                 while (f >> command) {
-                    if (g.checkFinished()) { // Game::checkFinished might produce output
+                    try {
+
+                    if (gp->checkFinished()) { // Game::checkFinished might produce output
                         cout << "GAME FINISHED." << endl;
-                        break;
+                        return 0;
                     }
                     if (command == "move") {
                         char linkId;
                         char direction;
-                        cin >> linkId >> direction;
+                        f >> linkId >> direction;
                         // directions can be 'north', 'east', 'south', 'west'
-                        g.moveLink(linkId, direction); // (*) check valid id, direction, 
+                        gp->moveLink(linkId, direction); // (*) check valid id, direction, 
                         // check if finished
-                        if (g.checkFinished()) {
+                        if (gp->checkFinished()) {
                             cout << "GAME FINISHED." << endl;
-                            break;
+                            return 0;
                         }
 
-                        g.toggleTurn();
-                        std::cout << g;
+                        gp->toggleTurn();
+                        std::cout << *gp;
                         
                         usedAbility = false;
                             // print whose turn
-                        if (g.checkWhoseTurn()) std::cout << "Player 1's turn." << endl;
+                        if (gp->checkWhoseTurn()) std::cout << "Player 1's turn." << endl;
                         else std::cout << "Player 2's turn." << endl;
                         // if one of curPlayer's links are sabotaged, play game to fix it
-                        g.getCurrentPlayer()->hasSabotagedLink();
+                        gp->getCurrentPlayer()->hasSabotagedLink();
                     }
 
                     else if (command == "abilities") {
-                        g.printAbilities();
+                        gp->printAbilities();
                     }
 
                     else if (command == "ability") {
@@ -217,13 +218,13 @@ int main(int argc, char* argv[]) {
                             throw logic_error {"ability has already been used this turn."};
                         }
                         int index;
-                        cin >> index;
-                        g.useAbility(index-1); // (*) check valid index, not used yet
+                        f >> index;
+                        gp->useAbility(index-1); // (*) check valid index, not used yet
                         usedAbility = true; // ability has now been used this turn
                     }
 
                     else if (command == "board") {
-                        std::cout << g;
+                        std::cout << *gp;
                     }
 
                     // TODO:
@@ -233,23 +234,30 @@ int main(int argc, char* argv[]) {
                     //     ifstream nestedFile {nestedFileName};
                     //     if (nestedFile.is_open()) {
                     //         // Read commands from the nested file
-                    //         f = move(nestedFile);
+                    //         f = nestedFile;
                     //         continue;  // Go to the next iteration of the loop
                     //     }
                     // }
 
-                    else if (command == "quit" || cin.eof()) {
-                        break;
-                    }
-
-                    else {
+                    else if (command != "quit") {
                         cerr << "Invalid command, try again." << endl;
                     }
+
+                    if (command == "quit" || cin.eof()) {
+                        cout << "Quitting RAIInet." << endl;
+                        return 0;
+                    }
+                    cout << command << endl;
+                    } // try
+                    catch (std::logic_error r) {
+                        cerr << r.what() << endl;
+                        continue;
+                    } // catch
                 }
             }
 
             else if (command == "quit" || cin.eof()) {
-                break;
+                return 0;
             }
 
             else {

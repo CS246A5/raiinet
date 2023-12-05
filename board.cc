@@ -9,6 +9,7 @@ Board::Board() {
         }
     }
 }
+
 // Define and initialize the static instance 
 Board& Board::getInstance() {
     static Board instance; // Create a single instance 
