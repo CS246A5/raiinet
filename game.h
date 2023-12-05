@@ -12,7 +12,7 @@
 using namespace std;
 
 class Player;
-class Board;
+class Board; 
 
 class Game {
     unique_ptr<Player> p1 = make_unique<Player>(nullptr); // for more than two players, can do an arr/vec of players
