@@ -25,12 +25,11 @@ class Game {
     unique_ptr<GraphicsDisplay> gd;
     bool GDEnabled = false; // true if graphics display is enabled
 
-    Player* theirTurn(bool who);
-
     public:
     Game();
     ~Game();
     Player* getCurrentPlayer();
+    Player* theirTurn(bool who); // returns player1 if true, player2 otherwise
     void initPlayerOne(unique_ptr<Player> player1);
     void initPlayerTwo(unique_ptr<Player> player2);
     bool checkWhoseTurn(); // returns true if player 1's turn, false otherwise

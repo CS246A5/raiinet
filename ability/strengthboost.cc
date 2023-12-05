@@ -18,18 +18,25 @@ void StrengthBoost::activate(Player& player, Player& opponent ) {
     char id;
      while (true) {
         cin >> id;
-        try {
-            Link& link = opponent.getLink(id);
-            link.setStrength(link.getStrength() + 1);
-            setUsed(true);
-            cout << "Link " << id << " has been boosted in strength.\n";
-            break; // Exit the loop since we found the link
-        }catch (const std::runtime_error& e) { //not sure if it is the right exception to catch
-            // Specified link is not found
-            cout << "Link not found. Please re-enter the link name: ";
+
+        Link *l; // pointer to the link we strengthening
+        if (player.getGame()->checkWhoseTurn() && (id == 'a' || id == 'b' || id == 'c' || id == 'd' ||
+                id == 'e' || id == 'f' || id == 'g' || id == 'h')) {
+            l = &player.getPureLink(id);
         }
+        else if (!player.getGame()->checkWhoseTurn() && (id == 'A' || id == 'B' || id == 'C' || 
+            id == 'D' || id == 'E' || id == 'F' || id == 'G' || id == 'H')) {
+            l = &player.getPureLink(id);
+        }
+        else throw logic_error {"Invalid Id. Try again."};
+
+        l->setStrength(l->getStrength() + 1);
+        setUsed(true);
+        cout << "Link " << id << " has been boosted in strength.\n";
+        break; // Exit the loop since we found the link
     }
 }
+
 
 
 

@@ -25,13 +25,14 @@ void LinkBoost::activate(Player& player, Player& opponent ) {
         cin >> id;
         //get the link we want to work with
         Link& link = player.getLink(id);
-        setUsed(true);
+
         // Check if the link is boosted
         if (link.checkIfBoosted()) {
             cout << "Link " << id << " has already been boosted. Please re-enter the link id: ";
         } else {
             link.setIsBoosted(true);
             cout << "Link " << id << " has been boosted." << endl;
+            setUsed(true);
             break; 
         }
     }
