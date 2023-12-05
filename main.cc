@@ -174,7 +174,78 @@ int main(int argc, char* argv[]) {
                 string fileName;
                 cin >> fileName;
                 fstream f {fileName};
-                // TODO: to do.........
+
+                if (!f.is_open()) {
+                    cerr << "Error opening file: " << fileName << endl;
+                    continue;  // Go to the next iteration of the loop
+                }
+
+                while (f >> command) {
+                    if (g.checkFinished()) { // Game::checkFinished might produce output
+                        cout << "GAME FINISHED." << endl;
+                        break;
+                    }
+                    if (command == "move") {
+                        char linkId;
+                        char direction;
+                        cin >> linkId >> direction;
+                        // directions can be 'north', 'east', 'south', 'west'
+                        g.moveLink(linkId, direction); // (*) check valid id, direction, 
+                        // check if finished
+                        if (g.checkFinished()) {
+                            cout << "GAME FINISHED." << endl;
+                            break;
+                        }
+
+                        g.toggleTurn();
+                        std::cout << g;
+                        
+                        usedAbility = false;
+                            // print whose turn
+                        if (g.checkWhoseTurn()) std::cout << "Player 1's turn." << endl;
+                        else std::cout << "Player 2's turn." << endl;
+                        // if one of curPlayer's links are sabotaged, play game to fix it
+                        g.getCurrentPlayer()->hasSabotagedLink();
+                    }
+
+                    else if (command == "abilities") {
+                        g.printAbilities();
+                    }
+
+                    else if (command == "ability") {
+                        if (usedAbility) { // if ability has been used this turn
+                            throw logic_error {"ability has already been used this turn."};
+                        }
+                        int index;
+                        cin >> index;
+                        g.useAbility(index-1); // (*) check valid index, not used yet
+                        usedAbility = true; // ability has now been used this turn
+                    }
+
+                    else if (command == "board") {
+                        std::cout << g;
+                    }
+
+                    // TODO:
+                    // else if (command == "sequence") { // NESTED file
+                    //     string nestedFileName;
+                    //     f >> nestedFileName;
+                    //     ifstream nestedFile {nestedFileName};
+                    //     if (nestedFile.is_open()) {
+                    //         // Read commands from the nested file
+                    //         f = move(nestedFile);
+                    //         continue;  // Go to the next iteration of the loop
+                    //     }
+                    // }
+
+                    else if (command == "quit" || cin.eof()) {
+                        break;
+                    }
+
+                    else {
+                        cerr << "Invalid command, try again." << endl;
+                    }
+                }
             }
 
             else if (command == "quit" || cin.eof()) {
