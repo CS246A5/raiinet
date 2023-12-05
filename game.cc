@@ -110,6 +110,13 @@ void Game::moveLink(char id, char dir)
     int posX = curPlayer->getLink(id).getPosX();
     int posY = curPlayer->getLink(id).getPosY();
 
+    // prepare opposite direction in case of throw
+    char oppDir;
+    if (dir == 'n') oppDir = 's';
+    if (dir == 'e') oppDir = 'w';
+    if (dir == 's') oppDir = 'n';
+    if (dir == 'w') oppDir = 'e';
+
     // change old cell
     // if was on firewall:
     if (b->theBoard[posY][posX].isPlayerOneFirewall())
@@ -125,8 +132,6 @@ void Game::moveLink(char id, char dir)
     {
         b->theBoard[posY][posX].setState('.');
     }
-
-    // else TODO: deal with if it is undefined
 
     // moving
     curPlayer->moveLink(id, dir, whoseTurn);
@@ -150,6 +155,16 @@ void Game::moveLink(char id, char dir)
         { // p2's download edge
             curPlayer->downloadLink(curPlayer->getLink(id));
         }
+        else if ((posX == 3 || posX == 4) && posY == 0)
+        { // own server port!?
+            curPlayer->moveLink(id, oppDir, whoseTurn);
+            throw logic_error {"You can't move your link onto your own Server Port"};
+        }
+        else if (posX > 7 || posY > 7 || posX < 0 || posY < 0)
+        { // off the map!!?
+            curPlayer->moveLink(id, oppDir, whoseTurn);
+            throw logic_error {"You can't move your link off the board"};
+        }
     }
     else if (whoseTurn == false)
     { // p2's turn
@@ -160,6 +175,16 @@ void Game::moveLink(char id, char dir)
         else if ((posY == -1) && posX != 3 && posX != 4)
         { // p1's download edge
             curPlayer->downloadLink(curPlayer->getLink(id));
+        }
+        else if ((posX == 3 || posX == 4) && posY == 7)
+        { // own server port!?
+            curPlayer->moveLink(id, oppDir, whoseTurn);
+            throw logic_error {"You can't move your link onto your own Server Port"};
+        }
+        else if (posX > 7 || posY > 7 || posX < 0 || posY < 0)
+        { // off the map!!?
+            curPlayer->moveLink(id, oppDir, whoseTurn);
+            throw logic_error {"You can't move your link off the board"};
         }
     }
 

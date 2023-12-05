@@ -138,24 +138,29 @@ void Player::addLink(char id, string link) {
 }
 
 // move a link in the specified direction
-bool Player::moveLink(char id, char direction, bool isP1Turn) {
-    bool isIllegal = false;
+void Player::moveLink(char id, char direction, bool isP1Turn) {
+    // bool isIllegal = false;
 
-    Link& link = links[id];
-    int posX = link.getPosX();
-    int posY = link.getPosY();
-    bool isBoosted = link.checkIfBoosted();
+    Link *link = &links[id];
+    // int posX = links[id].getPosX();
+    // int posY = links[id].getPosY();
+    bool isBoosted = links[id].checkIfBoosted();
     
     int increment = 1;
     if (isBoosted) increment = 2;
 
     //check which direction the movement is and assume the positions are moved
-    switch (direction) {
-        case 'n': posY -= increment;;
-        case 'w': posX -= increment;
-        case 'e': posX += increment;
-        case 's': posY += increment;
-    }
+    // switch (direction) {
+    //     case 'n': posY -= increment;
+    //     case 'w': posX -= increment;
+    //     case 'e': posX += increment;
+    //     case 's': posY += increment;
+    // }
+    if (direction == 'n') link->moveN(increment);
+    else if (direction == 'w') link->moveW(increment);
+    else if (direction == 'e') link->moveE(increment);
+    else if (direction == 's') link->moveS(increment);
+
 
     //check illegal moves
     //check if onto own links
@@ -189,13 +194,8 @@ bool Player::moveLink(char id, char direction, bool isP1Turn) {
     //     return false;
     
     // } else { //else make the necessary moves
-        switch (direction) {
-            case 'n': links[id].moveN();
-            case 'w': links[id].moveW();
-            case 'e': links[id].moveE();
-            case 's': links[id].moveS();
-        }   
-        return true;
+        
+        // return true;
     // }
     
 } //moveLink

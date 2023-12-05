@@ -47,7 +47,7 @@ class Player {
         void addAbility(char ability); // adds ability 'L', 'S', etc.
         void addLink(char id, string link); // adds link during setup. id is 'a','D', etc.
                                             // link is "V4", "D2", etc.
-        bool moveLink(char id, char direction, bool isP1Turn); // moves link by id in specified
+        void moveLink(char id, char direction, bool isP1Turn); // moves link by id in specified
                                                                 // direction. Updates link coords
         bool useAbility(int i, Player& Opponent); // uses ability at index i
         void printAbilities(); //print the abilities avaliable

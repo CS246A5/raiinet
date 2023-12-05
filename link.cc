@@ -94,29 +94,21 @@ void Link::reveal(){
 }
 
 // Move the link north
-void Link::moveN() {
-    // Check if the link is boosted
-    int moveAmount = isBoosted ? 2 : 1;
+void Link::moveN(int moveAmount) {
     posY -= moveAmount;
 }
 
 // Move the link east
-void Link::moveE() {
-    // Check if the link is boosted
-    int moveAmount = isBoosted ? 2 : 1;
+void Link::moveE(int moveAmount) {
     posX += moveAmount;
 }
 
 // Move the link south
-void Link::moveS() {
-    // Check if the link is boosted
-    int moveAmount = isBoosted ? 2 : 1;
+void Link::moveS(int moveAmount) {
     posY += moveAmount;
 }
 
 // Move the link west
-void Link::moveW() {
-    // Check if the link is boosted
-    int moveAmount = isBoosted ? 2 : 1;
+void Link::moveW(int moveAmount) {
     posX -= moveAmount;
 }
