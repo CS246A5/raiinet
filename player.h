@@ -4,6 +4,8 @@
 #include <map>
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <ctime>
 #include "board.h"
 #include "link.h"
 #include "game.h"
@@ -25,31 +27,32 @@ class Game;
 
 class Player {
     map<char,Link> links;
-    unique_ptr<Game> theGame;
+    Game *theGame;
     int numData; // # of downloaded data
     int numVirus; // # of downloaded viruses
     unique_ptr<Ability> abilities[5];
     vector<int> firewalls;
     map<char, string> linkNames;
 
-    Ability convert(const char &ability) const; // converts from char to Ability
-
     public:  
         Player(Game* theGame); // must initialize all links
         ~Player();
+        Game *getGame();
         int getNumData() const; // how many downloaded data
         int getNumVirus() const; // how many downloaded virus
         int getNumAbilities() const; //how many number of abilities there are
 
         void downloadLink(Link& currLink); //increment the number of data/virus downloaded
         Link& getLink(char id); // get link at id (a-h) or (A-H)
+        Link& getPureLink(char id); // get link at id (a-h) or (A-H) NO EXCEPTION SAFETY NEEDED
+        bool hasSabotagedLink(); // plays guessing game if one is sabotaged to fix
 
         void addAbility(char ability); // adds ability 'L', 'S', etc.
         void addLink(char id, string link); // adds link during setup. id is 'a','D', etc.
                                             // link is "V4", "D2", etc.
-        bool moveLink(char id, char direction, bool isP1Turn); // moves link by id in specified
+        void moveLink(char id, char direction, bool isP1Turn); // moves link by id in specified
                                                                 // direction. Updates link coords
-        bool useAbility(int i, Player& Opponent); // uses ability at index i
+        void useAbility(int i, Player& Opponent); // uses ability at index i
         void printAbilities(); //print the abilities avaliable
         friend std::ostream &operator << (std::ostream &out, const Player &p);
 };

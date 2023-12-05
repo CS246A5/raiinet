@@ -6,9 +6,9 @@ OBJECTS = ${SOURCES:.cc=.o}  # .o files depend upon .cc files with same names
 DEPENDS = ${OBJECTS:.o=.d}   # .d file is list of dependencies for corresponding .cc file
 EXEC=raiinet
 
-# First target in the makefile is the default target.
+# First target in the makefile is the default taårget.
 $(EXEC): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $(EXEC)
+	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $(EXEC) -lX11
 
 %.o: %.cc 
 	$(CXX) -c -o $@ $< $(CXXFLAGS)

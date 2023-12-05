@@ -10,31 +10,40 @@ Firewall::~Firewall() {
 }
 
 void Firewall::activate(Player& player, Player& opponent) {
-    try {
-        std::cout << "Enter the coordinates (row and column) to place the firewall: ";
-        int row, col;
-        std::cin >> row >> col;
+    int row, col;
+
+    while (true) {
+        cin >> row;
+        cin >> col;
 
         if (row < 0 || row >= 8 || col < 0 || col >= 8) {
-            throw std::out_of_range("Coordinates are outside the board's dimensions.");
+            throw logic_error ("Coordinates are outside the board's dimensions.");
         }
 
-        Board& gameBoard = Board::getInstance();
-        Cell* selectedCell = gameBoard.getCell(row, col);
+        Cell* selectedCell = player.getGame()->getBoard()->getCell(row, col);
+        // Board& gameBoard = Board::getInstance();
+        // Cell* selectedCell = gameBoard.getCell(row, col);
         if (selectedCell && selectedCell->getState() == '.') {
-            char firewallSymbol = theGame.get()->getCurrentPlayer() == &player ? 'm' : 'w';
+            char firewallSymbol = player.getGame()->checkWhoseTurn() ? 'm' : 'w';
+            setUsed(true);
             selectedCell->setState(firewallSymbol); // This will notify TextDisplay to update
+            cout << "Firewall " << firewallSymbol << " has been set at (" 
+                << col << ", " << row << ")" << endl;
+            cout << *player.getGame()->getBoard();
+
+            // define whose firewall it is for the cell
+            if (player.getGame()->checkWhoseTurn()) selectedCell->setPlayerOneFirewall();
+            else selectedCell->setPlayerTwoFirewall();
+            
+            break;
 
         } else {
-            std::cout << "Cannot place a firewall on an occupied square.\n";
+            throw logic_error {"Cannot place a firewall on an occupied square."};
         }
-    } 
-    catch (const std::out_of_range& e) {
-        std::cout << "Error: " << e.what() << std::endl;
+
     }
-    catch (const std::exception& e) {
-        std::cout << "An unexpected error occurred: " << e.what() << std::endl;
-    }
+
+    
 }
 
 // Board& Scan::getGameBoard() {

@@ -1,7 +1,8 @@
 ability/download.o: ability/download.cc ability/ability.h \
  ability/../board.h ability/../player.h ability/../board.h \
  ability/../link.h ability/../game.h ability/../textdisplay.h \
- ability/../observer.h ability/../cell.h ability/../ability/ability.h \
+ ability/../observer.h ability/../cell.h ability/../graphicsdisplay.h \
+ ability/../window.h ability/../ability/ability.h \
  ability/../ability/linkboost.h ability/../ability/ability.h \
  ability/../ability/firewall.h ability/../ability/download.h \
  ability/../ability/polarize.h ability/../ability/scan.h \

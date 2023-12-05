@@ -5,35 +5,43 @@
 #include <string>
 #include <stdexcept>
 
+using namespace std;
+
 class Player;
 
 Polarize::Polarize() : Ability("Polarize", move(theGame)) {
       // Constructor for Polarize
 }
 
+Polarize::~Polarize(){}
+
 void Polarize::activate(Player& player, Player& opponent) { 
-    cout << "Enter the name or ID of the link you want to polarize: ";
     string linkName;
 
     while (true) {
         cin >> linkName;
 
-        try {
-            // Get the link from the player
-            Link& link = player.getLink(linkName[0]);
+        // Get the link from the player
+        Link& link = opponent.getLink(linkName[0]);
+        if (islower(linkName[0])) link = player.getLink(linkName[0]);
 
-            // Check if it's a data link or a virus link 
-            if (link.checkIfData()) {
-                link.setIsData(false);
-                cout << "Link " << linkName << " has been polarized to a virus link.\n";
-                break;  // Exit loop after successful polarization
-            } else {
-                link.setIsData(true);
-                cout << "Link " << linkName << " has been polarized to a data link.\n";
-                break;  // Exit loop after successful polarization
-            }
-        } catch (const std::invalid_argument& e) {
-            cout << e.what() << " Please try again.\n";
+        // if the link id does not exist
+        if (!(linkName == "a" || linkName == "b" || linkName == "c" || linkName == "d" || 
+                linkName == "e" || linkName == "f" || linkName == "g" || linkName == "h" || 
+                linkName == "A" || linkName == "B" || linkName == "C" || linkName == "D" || 
+                linkName == "E" || linkName == "F" || linkName == "G" || linkName == "H")) {
+            throw logic_error {"This link id does not exist. Try again."};
+        }
+        // Check if it's a data link or a virus link 
+        else if (link.checkIfData()) {
+            link.setIsData(false);
+            cout << "Link " << linkName << " has been polarized from a Data to a Virus link." << endl;
+            break;  // Exit loop after successful polarization
+        } 
+        else {
+            link.setIsData(true);
+            cout << "Link " << linkName << " has been polarized from a Virus to a Data link." << endl;
+            break;  // Exit loop after successful polarization
         }
     }
 }

@@ -3,7 +3,7 @@
 #include "link.h"
 
 // Default constructor
-Cell::Cell() : sym('.'), firewall(false), r(-1), c(-1) {}
+Cell::Cell() : sym('.'), r(-1), c(-1) {}
 
 char Cell::getState() const {
     return sym;
@@ -14,12 +14,20 @@ void Cell::setState(char c) {
     notifyObserver(); // Notify the observer when the state changes
 }
 
+void Cell::setPlayerOneFirewall() {
+    playerOneFirewall = true;
+}
+
+void Cell::setPlayerTwoFirewall() {
+    playerTwoFirewall = true;
+}
+
 bool Cell::isPlayerOneFirewall() const {
-    return firewall; // Implement this based on your logic
+    return playerOneFirewall; 
 }
 
 bool Cell::isPlayerTwoFirewall() const {
-    return firewall; // Implement this based on your logic
+    return playerTwoFirewall;
 }
 
 int Cell::getRow() const {
@@ -29,7 +37,7 @@ int Cell::getRow() const {
 int Cell::getColumn() const {
     return c;
 }
-
+ 
 void Cell::setCoords(int row, int col) {
     r = row;
     c = col;

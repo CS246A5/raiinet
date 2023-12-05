@@ -38,6 +38,9 @@ Player::~Player() {
 // }
 
 
+Game *Player::getGame() {
+    return theGame;
+}
 
 // getter for the number of downloaded data
 int Player::getNumData() const {
@@ -67,33 +70,76 @@ Link& Player::getLink(char id) {
     } else {
         char newId;
         // Handle the case when 'id' is not found in the map
-        cout << "Wrong id, please reenter: ";
+        cout << "Wrong id, please re-enter: " << endl;
+        cin.ignore();
         cin >> newId;
         return getLink(newId);
     }
 }
 
+Link& Player::getPureLink(char id) {
+    auto it = links.find(id);
+    return it->second;  // Return the value associated with the key 'id'
+}
+
+bool Player::hasSabotagedLink() {
+    for (auto i : links) {
+        if (i.second.checkIfSabotaged()) {
+            char choices[3] = {'a','b','c'};
+            srand((int)time(0)); // seed for random based on time
+            int correctIndex = (rand() % 3);
+            cout << "You have a sabotaged link, " << i.first << "." << endl;
+            cout << "You must guess either a, b, or c to try and fix it: ";
+            char guess;
+            cin >> guess;
+            if (guess == choices[correctIndex]) {
+                i.second.setIsSabotaged(false);
+                cout << "Congrats, you have fixed your link!" << endl;
+            }
+            else cout << "Bummer, it's still sabotaged." << endl;
+            break;
+        }
+    }
+    return false;
+}
+
+// char ids[8] = {'a','b','c','d','e','f','g','h'};
+//         vector<string> theLinks = {"D1", "D2", "D3", "D4", "V1", "V2", "V3", "V4"};
+//         for (int i = 0; i < 8; ++i) {
+//             srand((int)time(0)); // seed for random based on time
+//             int index = (rand() % (8-i)); // get index of the link we take from theLinks randomly
+//             p1->addLink(ids[i], theLinks[index]); // add this link to p1's links
+//             theLinks.erase(theLinks.begin()+index); // remove this link from theLinks so no duplicate
+//         } // for
+
 // add to numData or numVirus after download
 void Player::downloadLink(Link& currLink) {
     if (currLink.checkIfData()){
-        numVirus ++;
-    } else {
         numData ++;
+    } else {
+        numVirus ++;
     }
 }
 
 // add an ability based on the given character
 void Player::addAbility(char ability) {
-    for (int i = 0; i < 5; i ++ ){
-        switch (ability) {
-            case 'L': abilities[i] = make_unique<LinkBoost>(); break;
-            case 'F': abilities[i] = make_unique<Firewall>(); break;
-            case 'D': abilities[i] = make_unique<Download>(); break;
-            case 'S': abilities[i] = make_unique< Scan>(); break;
-            case 'M': abilities[i] = make_unique< MoveLink>() ; break;
-            case 'B': abilities[i] = make_unique< Sabotage>(); break;
-            case 'T': abilities[i] = make_unique< StrengthBoost>(); break;
+    int addCount = 0;
+    for (int i = 0; i < 5; i++) {
+        if (!abilities[i]) {
+            addCount = 1;
+            switch (ability) {
+                case 'L': abilities[i] = make_unique<LinkBoost>(); break;
+                case 'F': abilities[i] = make_unique<Firewall>(); break;
+                case 'D': abilities[i] = make_unique<Download>(); break;
+                case 'S': abilities[i] = make_unique<Scan>(); break;
+                case 'P': abilities[i] = make_unique<Polarize>(); break;
+                case 'M': abilities[i] = make_unique<MoveLink>(); break;
+                case 'B': abilities[i] = make_unique<Sabotage>(); break;
+                case 'T': abilities[i] = make_unique<StrengthBoost>(); break;
+            }
+            break;
         }
+        if (addCount == 1) break;
     }
 }
 
@@ -109,18 +155,18 @@ void Player::addLink(char id, string link) {
     char cIsData = link[0];
     bool isData = true;
     if (cIsData == 'V') isData = false;
- 
+
     if(std::isupper(id)){
-        int posX = 7;
-        int posY = id - 'A' + 1;
-        if (id == 'D' || id == 'E') posX -= 1;
+        int posY = 7;
+        int posX = id - 'A';
+        if (id == 'D' || id == 'E') posY -= 1;
         std::unique_ptr<Link> l  = std::make_unique<Link>(posX, posY, strength, isData);
         links[id] = *l;
         linkNames[id] = link;
     } else {
-        int posX = 0;
-        int posY = id - 'a' + 1;
-        if (id == 'd' || id == 'e') posX += 1;
+        int posY = 0;
+        int posX = id - 'a';
+        if (id == 'd' || id == 'e') posY += 1;
         std::unique_ptr<Link> l  = std::make_unique<Link>(posX, posY, strength, isData);
         links[id] = *l;
         linkNames[id] = link;
@@ -128,80 +174,78 @@ void Player::addLink(char id, string link) {
 }
 
 // move a link in the specified direction
-bool Player::moveLink(char id, char direction, bool isP1Turn) {
-    bool isIllegal = false;
+void Player::moveLink(char id, char direction, bool isP1Turn) {
+    // bool isIllegal = false;
 
-    Link& link = links[id];
-    int posX = link.getPosX();
-    int posY = link.getPosY();
-    bool isBoosted = link.checkIfBoosted();
+    Link *link = &links[id];
+    // int posX = links[id].getPosX();
+    // int posY = links[id].getPosY();
+    bool isBoosted = links[id].checkIfBoosted();
     
     int increment = 1;
     if (isBoosted) increment = 2;
 
-    //check which direction the movement is and assume the positions are m oved
-    switch (direction) {
-        case 'N': posY -= increment;;
-        case 'W': posX -= increment;
-        case 'E': posX += increment;
-        case 'S': posY += increment;
-    }
+    //check which direction the movement is and assume the positions are moved
+    // switch (direction) {
+    //     case 'n': posY -= increment;
+    //     case 'w': posX -= increment;
+    //     case 'e': posX += increment;
+    //     case 's': posY += increment;
+    // }
+    if (direction == 'n') link->moveN(increment);
+    else if (direction == 'w') link->moveW(increment);
+    else if (direction == 'e') link->moveE(increment);
+    else if (direction == 's') link->moveS(increment);
+
 
     //check illegal moves
     //check if onto own links
-    for (auto& p : links) {
-        if (id == p.first) break; //if it is the link itself - should not check
-        Link& otherLink = p.second;
-        int otherX = otherLink.getPosX();
-        int otherY = otherLink.getPosY();
+    // for (auto& p : links) {
+    //     if (id == p.first) break; //if it is the link itself - should not check
+    //     Link& otherLink = p.second;
+    //     int otherX = otherLink.getPosX();
+    //     int otherY = otherLink.getPosY();
 
-        if(posX == otherX && posY == otherY) isIllegal = true;
-    }
+    //     if(posX == otherX && posY == otherY) isIllegal = true;
+    // }
 
     //check if off map or server port
-    if (isP1Turn){
-        if ((posX == 3 || posX == 4) && posY == 0) { //own serverPort
-            isIllegal = true;
-        } else if ((posX > 7) || (posX < 0) || (posY< 0)){ //off the map
-            isIllegal = true;
-        }
-    } else {
-         if ((posX == 3 || posX == 4) && posY == 7) { //own serverPort
-            isIllegal = true;
-        } else if ((posX > 7) || (posX < 0) || (posY > 7)){ //off the map
-            isIllegal = true;
-        } 
-    }
+    // if (isP1Turn){
+    //     if ((posX == 3 || posX == 4) && posY == 0) { //own serverPort
+    //         isIllegal = true;
+    //     } else if ((posX > 7) || (posX < 0) || (posY< 0)){ //off the map
+    //         isIllegal = true;
+    //     }
+    // } else {
+    //      if ((posX == 3 || posX == 4) && posY == 7) { //own serverPort
+    //         isIllegal = true;
+    //     } else if ((posX > 7) || (posX < 0) || (posY > 7)){ //off the map
+    //         isIllegal = true;
+    //     } 
+    // }
 
     //if illegal move return false
-    if(isIllegal){
-        cout << "Illegal move" << endl;
-        return false;
+    // if(isIllegal){
+    //     cout << "Illegal move" << endl;
+    //     return false;
     
-    } else { //else make the necessary moves
-        switch (direction) {
-            case 'N': links[id].moveN();
-            case 'W': links[id].moveW();
-            case 'E': links[id].moveE();
-            case 'S': links[id].moveS();
-        }   
-        return true;
-    }
+    // } else { //else make the necessary moves
+        
+        // return true;
+    // }
     
 } //moveLink
 
 // use an ability at the specified index
-bool Player::useAbility(int i, Player &opponent ) {
+void Player::useAbility(int i, Player &opponent ) {
     if (i >= 0 && i < 5 && abilities[i] != nullptr) {
-        if(abilities[i].get()->checkUsed()) {
+        if(!abilities[i].get()->checkUsed()) {
             abilities[i].get()->activate(*this, opponent);
         }
         else {
-            //cout << "This ability has already been used"  << endl;
-            return false;
+            throw logic_error {"This ability has already been used"};
         }
     }
-    return true;
 }
 
 // print the available abilities
@@ -209,11 +253,11 @@ void Player::printAbilities() {
     cout << "Available Abilities: ";
     for (int i = 0; i < 5; ++i) {
         if (abilities[i] != nullptr) {
-            string ifUsed = "has not been used";
+            string ifUsed = "✓";
             if (abilities[i]->checkUsed()){
-                ifUsed = "has been used";
+                ifUsed = "x";
             }
-            cout << abilities[i]->getAbility() << " " << abilities[i]->checkUsed() <<" ";
+            cout << abilities[i]->getAbility() << " " << ifUsed << "; ";
         }
     }
     cout << endl;

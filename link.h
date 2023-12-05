@@ -34,10 +34,10 @@ class Link {
         void setIsBoosted(bool value); // Method to set the isBoosted attribute
         void setIsSabotaged(bool value); // Method to set isSabotaged attribute
         void reveal(); // Method to set isRevealed to true
-        void moveN(); // move north
-        void moveE(); // move east
-        void moveS(); // move south
-        void moveW(); // move west
+        void moveN(int); // move north
+        void moveE(int); // move east
+        void moveS(int); // move south
+        void moveW(int); // move west
 };
 
 #endif
