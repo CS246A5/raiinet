@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
         }
 
         else if (command == "-link2") {
-            linksSpecifiedOne = true;
+            linksSpecifiedTwo = true;
             string fileName;
             char ids[8] = {'A','B','C','D','E','F','G','H'};
             fileName = argv[i+1];
@@ -104,7 +104,7 @@ int main(int argc, char* argv[]) {
         char ids[8] = {'A','B','C','D','E','F','G','H'};
         vector<string> theLinks = {"D1", "D2", "D3", "D4", "V1", "V2", "V3", "V4"};
         for (int i = 0; i < 8; ++i) {
-            srand((int)time(0)); // seed for random based on time
+            srand((int)time(0) + 1); // seed for random based on time
             int index = (rand() % (8-i)); // get index of the link we take from theLinks randomly
             p2->addLink(ids[i], theLinks[index]); // add this link to p1's links
             theLinks.erase(theLinks.begin()+index); // remove this link from theLinks so no duplicate
@@ -114,10 +114,11 @@ int main(int argc, char* argv[]) {
     g.initPlayerOne(move(p1));
     g.initPlayerTwo(move(p2));
     g.init();
+    g.toggleTurn();
     std::cout << g << endl;
+    g.toggleTurn();
 
-    if (g.checkWhoseTurn()) std::cout << "Player 1's turn." << endl;
-    else std::cout << "Player 2's turn." << endl;
+    std::cout << "Player 1's turn." << endl;
 
     // setup finished
     // interactions
@@ -126,12 +127,21 @@ int main(int argc, char* argv[]) {
 
     while (cin >> command) {
         try {
+            if (g.checkFinished()) { // Game::checkFinished might produce output
+                cout << "GAME FINISHED." << endl;
+                break;
+            }
             if (command == "move") {
                 char linkId;
                 char direction;
                 cin >> linkId >> direction;
                 // directions can be 'north', 'east', 'south', 'west'
-                g.moveLink(linkId, direction); // (*) check valid id, direction, destination
+                g.moveLink(linkId, direction); // (*) check valid id, direction, 
+                // check if finished
+                if (g.checkFinished()) {
+                cout << "GAME FINISHED." << endl;
+                break;
+            }
                 std::cout << g;
                 g.toggleTurn();
                 usedAbility = false;
@@ -155,7 +165,6 @@ int main(int argc, char* argv[]) {
             }
 
             else if (command == "board") {
-                // TODO: print whose turns and stuff
                 std::cout << g;
             }
 
@@ -170,16 +179,12 @@ int main(int argc, char* argv[]) {
                 break;
             }
 
-            else if (g.checkFinished()) { // Game::checkFinished might produce output
-                break;
-            }
-
             else {
                 cerr << "Invalid command, try again." << endl;
             }
         } // try
         catch (std::logic_error r) {
-            std::cout << r.what() << endl;
+            cerr << r.what() << endl;
             continue;
         } // catch
     } // while

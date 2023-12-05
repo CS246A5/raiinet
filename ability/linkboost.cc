@@ -18,7 +18,7 @@ LinkBoost::~LinkBoost() {
 
 void LinkBoost::activate(Player& player, Player& opponent ) { 
     // Read input to determine which link to polarize 
-    cout << "Enter the ID of the link you want to boost: ";
+    cout << "ID of the link you want to boost: ";
     char id;
 
     while (true) {

@@ -107,8 +107,8 @@ void Game::moveLink(char id, char dir)
     Player *curOpponent = theirTurn(!whoseTurn);
 
     // old position
-    int posX = curPlayer->getLink(id).getPosX();
-    int posY = curPlayer->getLink(id).getPosY();
+    int posX = curPlayer->getPureLink(id).getPosX();
+    int posY = curPlayer->getPureLink(id).getPosY();
 
     // prepare opposite direction in case of throw
     char oppDir;
@@ -136,66 +136,79 @@ void Game::moveLink(char id, char dir)
     // moving
     curPlayer->moveLink(id, dir, whoseTurn);
 
-    cout << posX << posY;
+    // cout << posX << posY;
 
     //  new position
-    posX = curPlayer->getLink(id).getPosX();
-    posY = curPlayer->getLink(id).getPosY();
+    posX = curPlayer->getPureLink(id).getPosX();
+    posY = curPlayer->getPureLink(id).getPosY();
 
-    cout << posX << posY;
+    // cout << posX << posY;
 
     // if lands on Server port / download edge
     if (whoseTurn == true)
     { // p1's turn
         if ((posX == 3 || posX == 4) && posY == 7)
         { // p2's server ports
-            curOpponent->downloadLink(curPlayer->getLink(id));
+            curOpponent->downloadLink(curPlayer->getPureLink(id));
         }
         else if ((posY == 8 && posX != 3 && posX != 4))
         { // p2's download edge
-            curPlayer->downloadLink(curPlayer->getLink(id));
+            curPlayer->downloadLink(curPlayer->getPureLink(id));
         }
         else if ((posX == 3 || posX == 4) && posY == 0)
         { // own server port!?
             curPlayer->moveLink(id, oppDir, whoseTurn);
-            throw logic_error {"You can't move your link onto your own Server Port"};
+            posX = curPlayer->getPureLink(id).getPosX();
+            posY = curPlayer->getPureLink(id).getPosY();
+            b->theBoard[posY][posX].setState(id);
+            throw logic_error {"You can't move your link onto your own Server Port. Try again."};
         }
         else if (posX > 7 || posY > 7 || posX < 0 || posY < 0)
         { // off the map!!?
             curPlayer->moveLink(id, oppDir, whoseTurn);
-            throw logic_error {"You can't move your link off the board"};
+            posX = curPlayer->getPureLink(id).getPosX();
+            posY = curPlayer->getPureLink(id).getPosY();
+            b->theBoard[posY][posX].setState(id);
+            throw logic_error {"You can't move your link off the board. Try again."};
         }
     }
     else if (whoseTurn == false)
     { // p2's turn
         if ((posX == 3 || posX == 4) && posY == 0)
         { // p1's server ports
-            curOpponent->downloadLink(curPlayer->getLink(id));
+            curOpponent->downloadLink(curPlayer->getPureLink(id));
         }
         else if ((posY == -1) && posX != 3 && posX != 4)
         { // p1's download edge
-            curPlayer->downloadLink(curPlayer->getLink(id));
+            curPlayer->downloadLink(curPlayer->getPureLink(id));
         }
         else if ((posX == 3 || posX == 4) && posY == 7)
         { // own server port!?
             curPlayer->moveLink(id, oppDir, whoseTurn);
-            throw logic_error {"You can't move your link onto your own Server Port"};
+            posX = curPlayer->getPureLink(id).getPosX();
+            posY = curPlayer->getPureLink(id).getPosY();
+            b->theBoard[posY][posX].setState(id);
+            throw logic_error {"You can't move your link onto your own Server Port. Try again."};
         }
         else if (posX > 7 || posY > 7 || posX < 0 || posY < 0)
         { // off the map!!?
             curPlayer->moveLink(id, oppDir, whoseTurn);
-            throw logic_error {"You can't move your link off the board"};
+            posX = curPlayer->getPureLink(id).getPosX();
+            posY = curPlayer->getPureLink(id).getPosY();
+            b->theBoard[posY][posX].setState(id);
+            throw logic_error {"You can't move your link off the board. Try again."};
         }
     }
 
     // if it lands on other player's firewall
     if ((whoseTurn == true && b->getCell(posY, posX)->isPlayerTwoFirewall()) ||
-            (whoseTurn == false && b->getCell(posY, posX)->isPlayerOneFirewall()))
+        (whoseTurn == false && b->getCell(posY, posX)->isPlayerOneFirewall()))
     {
-        curPlayer->getLink(id).reveal();
-        if (curPlayer->getLink(id).checkIfData() == false)
+        cout << "You've trespassed onto your opponent's Firewall!" << endl;
+        curPlayer->getPureLink(id).reveal();
+        if (curPlayer->getPureLink(id).checkIfData() == false)
         {
-            curPlayer->downloadLink(curPlayer->getLink(id));
+            curPlayer->downloadLink(curPlayer->getPureLink(id));
         }
         b->theBoard[posY][posX].setState(id);
     }
@@ -204,25 +217,38 @@ void Game::moveLink(char id, char dir)
     // the only cell states left should be '.' and '[link]'
     if (b->getCell(posY, posX)->getState() != '.')
     {
+        char linkState = b->getCell(posY, posX)->getState();
+        if ((whoseTurn == true && (linkState == 'a' || linkState == 'b' || linkState == 'c' 
+                                    || linkState == 'd' || linkState == 'e' || linkState == 'f' 
+                                    || linkState == 'g' || linkState == 'h'))
+            || (whoseTurn == false && (linkState == 'A' || linkState == 'B' || linkState == 'C' 
+                                    || linkState == 'D' || linkState == 'E' || linkState == 'F' 
+                                    || linkState == 'G' || linkState == 'H')))
+        { // try to attack own link!?!?
+            curPlayer->moveLink(id, oppDir, whoseTurn);
+            posX = curPlayer->getPureLink(id).getPosX();
+            posY = curPlayer->getPureLink(id).getPosY();
+            b->theBoard[posY][posX].setState(id);
+            throw logic_error {"Don't attack your own link!. Try again."};
+        }
         // at this point, it should be certain that the cell's state is the other player's link
-        int curLinkLevel = curPlayer->getLink(id).getStrength();
-        int oppLinkLevel = curOpponent->getLink(b->getCell(posY, posX)->getState()).getStrength();
-        curPlayer->getLink(id).reveal();
-        curOpponent->getLink(b->getCell(posY, posX)->getState()).reveal();
+        int curLinkLevel = curPlayer->getPureLink(id).getStrength();
+        int oppLinkLevel = curOpponent->getPureLink(b->getCell(posY, posX)->getState()).getStrength();
+        curPlayer->getPureLink(id).reveal();
+        curOpponent->getPureLink(b->getCell(posY, posX)->getState()).reveal();
 
         if (curLinkLevel >= oppLinkLevel)
         { // if curPlayer wins
-            curPlayer->downloadLink(curOpponent->getLink(b->getCell(posY, posX)->getState()));
+            curPlayer->downloadLink(curOpponent->getPureLink(b->getCell(posY, posX)->getState()));
             b->theBoard[posY][posX].setState(id);
         }
         else
         { // if curOpponent wins
-            curOpponent->downloadLink(curPlayer->getLink(id));
+            curOpponent->downloadLink(curPlayer->getPureLink(id));
         }
     }
 
     else
-    cout << "normal move case";
     { // lands on an empty cell: '.'
         b->theBoard[posY][posX].setState(id);
     }
@@ -251,10 +277,35 @@ std::ostream &operator<<(std::ostream &out, const Game &g)
     out << "Downloaded: " << g.p1->getNumData() << "D, " << g.p1->getNumVirus() << "V" << endl;
     out << "Abilities: " << g.p1->getNumAbilities() << endl;
     // printLinks
+    for (int i = 0; i < 4; ++i) {
+        char ch = "abcd"[i];
+        string linkType;
+        // check type of link
+        if (g.p1->getPureLink(ch).checkIfData()) linkType = "D";
+        else linkType = "V";
+        // print depends on whether the link has been revealed
+        if (g.whoseTurn && !g.p1->getPureLink(ch).checkIfRevealed()) {
+            out << ch << ": " << "? " << " ";
+        }
+        else out << ch << ": " << linkType << g.p1->getPureLink(ch).getStrength() << " ";
+    }
+    out << endl;
+    for (int i = 0; i < 4; ++i) {
+        char ch = "efgh"[i];
+        string linkType;
+        if (g.p1->getPureLink(ch).checkIfData()) linkType = "D";
+        else linkType = "V";
+        if (g.whoseTurn && !g.p1->getPureLink(ch).checkIfRevealed()) {
+            out << ch << ": " << "? " << " ";
+        }
+        else out << ch << ": " << linkType << g.p1->getPureLink(ch).getStrength() << " ";
+    }
+    out << endl;
+
     out << "========" << endl;
     if (g.b)
-    {                  // Check if the smart pointer actually points to an object
-        out << *(g.b); // Dereference the smart pointer to get the Board object
+    {                  // check if the smart pointer actually points to an object
+        out << *(g.b); // dereference the smart pointer to get the Board object
     }
     else
     {
@@ -262,8 +313,29 @@ std::ostream &operator<<(std::ostream &out, const Game &g)
     }
     out << "========" << endl;
     out << "Player 2:" << endl;
-    out << "Downloaded: " << g.p1->getNumData() << "D, " << g.p1->getNumVirus() << "V" << endl;
-    out << "Abilities: " << g.p1->getNumAbilities() << endl << endl;;
+    out << "Downloaded: " << g.p2->getNumData() << "D, " << g.p2->getNumVirus() << "V" << endl;
+    out << "Abilities: " << g.p2->getNumAbilities() << endl;
     // printLinks
-    return out;
+    for (int i = 0; i < 4; ++i) {
+        char ch = "ABCD"[i];
+        string linkType;
+        if (g.p2->getPureLink(ch).checkIfData()) linkType = "D";
+        else linkType = "V";
+        if (!g.whoseTurn && !g.p2->getPureLink(ch).checkIfRevealed()) {
+            out << ch << ": " << "? " << " ";
+        }
+        else out << ch << ": " << linkType << g.p2->getPureLink(ch).getStrength() << " ";
+    }
+    out << endl;
+    for (int i = 0; i < 4; ++i) {
+        char ch = "EFGH"[i];
+        string linkType;
+        if (g.p2->getPureLink(ch).checkIfData()) linkType = "D";
+        else linkType = "V";
+        if (!g.whoseTurn && !g.p2->getPureLink(ch).checkIfRevealed()) {
+            out << ch << ": " << "? " << " ";
+        }
+        else out << ch << ": " << linkType << g.p2->getPureLink(ch).getStrength() << " ";
+    }
+    return out << endl << endl;
 }

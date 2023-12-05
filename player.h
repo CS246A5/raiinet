@@ -32,8 +32,6 @@ class Player {
     vector<int> firewalls;
     map<char, string> linkNames;
 
-    Ability convert(const char &ability) const; // converts from char to Ability
-
     public:  
         Player(Game* theGame); // must initialize all links
         ~Player();
@@ -43,6 +41,7 @@ class Player {
 
         void downloadLink(Link& currLink); //increment the number of data/virus downloaded
         Link& getLink(char id); // get link at id (a-h) or (A-H)
+        Link& getPureLink(char id); // get link at id (a-h) or (A-H) NO EXCEPTION SAFETY NEEDED
 
         void addAbility(char ability); // adds ability 'L', 'S', etc.
         void addLink(char id, string link); // adds link during setup. id is 'a','D', etc.

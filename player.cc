@@ -74,12 +74,17 @@ Link& Player::getLink(char id) {
     }
 }
 
+Link& Player::getPureLink(char id) {
+    auto it = links.find(id);
+    return it->second;  // Return the value associated with the key 'id'
+}
+
 // add to numData or numVirus after download
 void Player::downloadLink(Link& currLink) {
     if (currLink.checkIfData()){
-        numVirus ++;
-    } else {
         numData ++;
+    } else {
+        numVirus ++;
     }
 }
 
@@ -125,7 +130,6 @@ void Player::addLink(char id, string link) {
         std::unique_ptr<Link> l  = std::make_unique<Link>(posX, posY, strength, isData);
         links[id] = *l;
         linkNames[id] = link;
-        cout << id << posX << posY;
     } else {
         int posY = 0;
         int posX = id - 'a';
@@ -133,7 +137,6 @@ void Player::addLink(char id, string link) {
         std::unique_ptr<Link> l  = std::make_unique<Link>(posX, posY, strength, isData);
         links[id] = *l;
         linkNames[id] = link;
-        cout << id << posX << posY;
     }
 }
 
