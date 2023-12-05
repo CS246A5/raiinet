@@ -99,10 +99,11 @@ void GraphicsDisplay::notify(Cell &c) {
     std::string msg(1,sym);
     if(sym == '.') {
         w.fillRectangle(x, y, cellSize, cellSize, Xwindow::White);
+        w.drawString(x + cellSize / 2, y + cellSize / 2, msg);
     }  else {
         w.fillRectangle(x, y, cellSize, cellSize, Xwindow::Black);
+        w.drawString(x + cellSize / 2, y + cellSize / 2, msg, Xwindow::White);
     }
-    w.drawString(x + cellSize / 2, y + cellSize / 2, msg);
 }
 
 GraphicsDisplay::~GraphicsDisplay() {}
