@@ -8,6 +8,7 @@
 #include "game.h"
 #include "player.h"
 #include "ability/ability.h"
+#include "graphicsdisplay.h"
 
 using namespace std;
 
@@ -22,7 +23,7 @@ int main(int argc, char* argv[]) {
     bool linksSpecifiedOne = false;
     bool linksSpecifiedTwo = false;
     
-    for (int i = 0; i < argc; ++i) {
+    for (int i = 1; i < argc; ++i) {
         string command = argv[i];
 
         if (command == "-ability1") {
@@ -71,7 +72,7 @@ int main(int argc, char* argv[]) {
         else if (command == "-link2") {
             linksSpecifiedOne = true;
             string fileName;
-            char ids[8] = {'a','b','c','d','e','f','g','h'};
+            char ids[8] = {'A','B','C','D','E','F','G','H'};
             fileName = argv[i+1];
             fstream f {fileName};
             for (int i = 0; i < 8; ++i) {
@@ -81,8 +82,9 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        else if (command == "graphics") {
-            // TODO: make graphical thing
+        else if (command == "-graphics") {
+            Xwindow w;
+            g.enableGD();
         }
     } // for loop
 
@@ -98,7 +100,7 @@ int main(int argc, char* argv[]) {
         } // for
     }
 
-    else if (!linksSpecifiedTwo) {
+    if (!linksSpecifiedTwo) {
         char ids[8] = {'A','B','C','D','E','F','G','H'};
         vector<string> theLinks = {"D1", "D2", "D3", "D4", "V1", "V2", "V3", "V4"};
         for (int i = 0; i < 8; ++i) {
@@ -119,69 +121,68 @@ int main(int argc, char* argv[]) {
 
     // setup finished
     // interactions
-    string line;
-    istream& in = cin;
-    while (getline(in, line)) {
+    string command;
+    bool usedAbility = false;
+
+    while (cin >> command) {
         try {
-            // print who's turn
-            if (g.checkWhoseTurn()) std::cout << "Player 1's turn." << endl;
-            else std::cout << "Player 2's turn." << endl;
-
-            stringstream ss{line};
-            string command;
-            ss >> command;
-            
-            bool usedAbility = false;
-
             if (command == "move") {
                 char linkId;
                 char direction;
-                ss >> linkId;
-                ss >> direction;
+                cin >> linkId >> direction;
                 // directions can be 'north', 'east', 'south', 'west'
-                g.moveLink(linkId, direction); // (*)
+                g.moveLink(linkId, direction); // (*) check valid id, direction, destination
                 std::cout << g;
                 g.toggleTurn();
+                usedAbility = false;
+                    // print whose turn
+                if (g.checkWhoseTurn()) std::cout << "Player 1's turn." << endl;
+                else std::cout << "Player 2's turn." << endl;
             }
 
-            if (command == "abilities") {
+            else if (command == "abilities") {
                 g.printAbilities();
             }
 
-            if (command == "ability") {
+            else if (command == "ability") {
                 if (usedAbility) { // if ability has been used this turn
                     throw logic_error {"ability has already been used this turn."};
                 }
                 int index;
-                ss >> index;
-                g.useAbility(index-1); // (*)
+                cin >> index;
+                g.useAbility(index-1); // (*) check valid index, not used yet
                 usedAbility = true; // ability has now been used this turn
             }
 
-            if (command == "board") {
+            else if (command == "board") {
+                // TODO: print whose turns and stuff
                 std::cout << g;
             }
 
-            if (command == "sequence") {
+            else if (command == "sequence") {
                 string fileName;
-                ss >> fileName;
+                cin >> fileName;
                 fstream f {fileName};
-                istream& in = f; // idk if this works
+                // TODO: to do.........
             }
 
-            if (command == "quit" || cin.eof()) {
+            else if (command == "quit" || cin.eof()) {
                 break;
             }
 
-            if (g.checkFinished()) { // Game::checkFinished might produce output
+            else if (g.checkFinished()) { // Game::checkFinished might produce output
                 break;
+            }
+
+            else {
+                cerr << "Invalid command, try again." << endl;
             }
         } // try
         catch (std::logic_error r) {
             std::cout << r.what() << endl;
             continue;
         } // catch
-    } // while  
+    } // while
     
 }
 

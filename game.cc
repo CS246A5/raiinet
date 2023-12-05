@@ -21,9 +21,7 @@ Player *Game::getCurrentPlayer()
     return theirTurn(whoseTurn);
 }
 
-Game::Game() : p1{nullptr}, p2{nullptr}, td{new TextDisplay}
-{
-}
+Game::Game() : p1{nullptr}, p2{nullptr}, td{new TextDisplay}, gd{nullptr} {}
 
 Game::~Game() {}
 
@@ -114,28 +112,32 @@ void Game::moveLink(char id, char dir)
 
     // change old cell
     // if was on firewall:
-    if (b->theBoard[posX][posY].isPlayerOneFirewall())
+    if (b->theBoard[posY][posX].isPlayerOneFirewall())
     {
-        b->theBoard[posX][posY].setState('m');
+        b->theBoard[posY][posX].setState('m');
     }
-    else if (b->theBoard[posX][posY].isPlayerTwoFirewall())
+    else if (b->theBoard[posY][posX].isPlayerTwoFirewall())
     {
-        b->theBoard[posX][posY].setState('w');
+        b->theBoard[posY][posX].setState('w');
     }
     // if normal cell
     else
     {
-        b->theBoard[posX][posY].setState('.');
+        b->theBoard[posY][posX].setState('.');
     }
 
     // else TODO: deal with if it is undefined
 
     // moving
     curPlayer->moveLink(id, dir, whoseTurn);
-    // if
+
+    cout << posX << posY;
+
     //  new position
     posX = curPlayer->getLink(id).getPosX();
     posY = curPlayer->getLink(id).getPosY();
+
+    cout << posX << posY;
 
     // if lands on Server port / download edge
     if (whoseTurn == true)
@@ -162,20 +164,20 @@ void Game::moveLink(char id, char dir)
     }
 
     // if it lands on other player's firewall
-    else if ((whoseTurn == true && b->getCell(posY, posX)->isPlayerTwoFirewall()) ||
-             (whoseTurn == false && b->getCell(posY, posX)->isPlayerOneFirewall()))
+    if ((whoseTurn == true && b->getCell(posY, posX)->isPlayerTwoFirewall()) ||
+            (whoseTurn == false && b->getCell(posY, posX)->isPlayerOneFirewall()))
     {
         curPlayer->getLink(id).reveal();
         if (curPlayer->getLink(id).checkIfData() == false)
         {
             curPlayer->downloadLink(curPlayer->getLink(id));
         }
-        b->changeState(posY, posX, id);
+        b->theBoard[posY][posX].setState(id);
     }
 
     // if it lands on other player's link = BATTLE!!
     // the only cell states left should be '.' and '[link]'
-    else if (b->getCell(posY, posX)->getState() != '.')
+    if (b->getCell(posY, posX)->getState() != '.')
     {
         // at this point, it should be certain that the cell's state is the other player's link
         int curLinkLevel = curPlayer->getLink(id).getStrength();
@@ -186,7 +188,7 @@ void Game::moveLink(char id, char dir)
         if (curLinkLevel >= oppLinkLevel)
         { // if curPlayer wins
             curPlayer->downloadLink(curOpponent->getLink(b->getCell(posY, posX)->getState()));
-            b->changeState(posY, posX, id);
+            b->theBoard[posY][posX].setState(id);
         }
         else
         { // if curOpponent wins
@@ -195,8 +197,9 @@ void Game::moveLink(char id, char dir)
     }
 
     else
+    cout << "normal move case";
     { // lands on an empty cell: '.'
-        b->changeState(posY, posX, id);
+        b->theBoard[posY][posX].setState(id);
     }
 } // moveLink
 
@@ -206,9 +209,20 @@ void Game::printAbilities()
     curPlayer->printAbilities();
 } // printAbilities
 
+
+void Game::enableGD() {
+    GDEnabled = true;
+}
+
+
+bool Game::isGDEnabled() {
+    return GDEnabled;
+}
+
+
 std::ostream &operator<<(std::ostream &out, const Game &g)
 {
-    out << "Player 1:" << endl;
+    out << "\nPlayer 1:" << endl;
     out << "Downloaded: " << g.p1->getNumData() << "D, " << g.p1->getNumVirus() << "V" << endl;
     out << "Abilities: " << g.p1->getNumAbilities() << endl;
     // printLinks
@@ -224,7 +238,7 @@ std::ostream &operator<<(std::ostream &out, const Game &g)
     out << "========" << endl;
     out << "Player 2:" << endl;
     out << "Downloaded: " << g.p1->getNumData() << "D, " << g.p1->getNumVirus() << "V" << endl;
-    out << "Abilities: " << g.p1->getNumAbilities() << endl;
+    out << "Abilities: " << g.p1->getNumAbilities() << endl << endl;;
     // printLinks
     return out;
 }

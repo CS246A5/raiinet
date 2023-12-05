@@ -6,6 +6,8 @@
 #include "player.h"
 #include "board.h"
 #include "textdisplay.h"
+#include "graphicsdisplay.h"
+#include "window.h"
 
 using namespace std;
 
@@ -15,11 +17,14 @@ class Board;
 class Game {
     unique_ptr<Player> p1 = make_unique<Player>(nullptr); // for more than two players, can do an arr/vec of players
     unique_ptr<Player> p2 = make_unique<Player>(nullptr);
-    unique_ptr<Board> b = make_unique<Board>();
     bool whoseTurn = true;     // true for playerOne, false for playerTwo 
-                        // for more than two players, can make integer
+
+    unique_ptr<Board> b = make_unique<Board>();
+    
     unique_ptr<TextDisplay> td = make_unique<TextDisplay>();
-    // TODO: add graphic display
+    unique_ptr<GraphicsDisplay> gd;
+    bool GDEnabled = false; // true if graphics display is enabled
+
     Player* theirTurn(bool who);
 
     public:
@@ -38,7 +43,9 @@ class Game {
     void moveLink(char id, char dir);   // moves the current player's link by id in the dir direction
                                         // dir can be 'n', 'e', 's', 'w'
                                         // edits the board
-    void printAbilities();
+    void printAbilities(); // prints the availability of each ability of the cur player
+    void enableGD(); // sets GDEnabled to true
+    bool isGDEnabled(); // returns true if GD is enabled
     friend std::ostream &operator<<(std::ostream &out, const Game &g);
 };
 

@@ -119,19 +119,21 @@ void Player::addLink(char id, string link) {
     if (cIsData == 'V') isData = false;
  
     if(std::isupper(id)){
-        int posX = 7;
-        int posY = id - 'A' + 1;
-        if (id == 'D' || id == 'E') posX -= 1;
+        int posY = 7;
+        int posX = id - 'A';
+        if (id == 'D' || id == 'E') posY -= 1;
         std::unique_ptr<Link> l  = std::make_unique<Link>(posX, posY, strength, isData);
         links[id] = *l;
         linkNames[id] = link;
+        cout << id << posX << posY;
     } else {
-        int posX = 0;
-        int posY = id - 'a' + 1;
-        if (id == 'd' || id == 'e') posX += 1;
+        int posY = 0;
+        int posX = id - 'a';
+        if (id == 'd' || id == 'e') posY += 1;
         std::unique_ptr<Link> l  = std::make_unique<Link>(posX, posY, strength, isData);
         links[id] = *l;
         linkNames[id] = link;
+        cout << id << posX << posY;
     }
 }
 
@@ -147,54 +149,54 @@ bool Player::moveLink(char id, char direction, bool isP1Turn) {
     int increment = 1;
     if (isBoosted) increment = 2;
 
-    //check which direction the movement is and assume the positions are m oved
+    //check which direction the movement is and assume the positions are moved
     switch (direction) {
-        case 'N': posY -= increment;;
-        case 'W': posX -= increment;
-        case 'E': posX += increment;
-        case 'S': posY += increment;
+        case 'n': posY -= increment;;
+        case 'w': posX -= increment;
+        case 'e': posX += increment;
+        case 's': posY += increment;
     }
 
     //check illegal moves
     //check if onto own links
-    for (auto& p : links) {
-        if (id == p.first) break; //if it is the link itself - should not check
-        Link& otherLink = p.second;
-        int otherX = otherLink.getPosX();
-        int otherY = otherLink.getPosY();
+    // for (auto& p : links) {
+    //     if (id == p.first) break; //if it is the link itself - should not check
+    //     Link& otherLink = p.second;
+    //     int otherX = otherLink.getPosX();
+    //     int otherY = otherLink.getPosY();
 
-        if(posX == otherX && posY == otherY) isIllegal = true;
-    }
+    //     if(posX == otherX && posY == otherY) isIllegal = true;
+    // }
 
     //check if off map or server port
-    if (isP1Turn){
-        if ((posX == 3 || posX == 4) && posY == 0) { //own serverPort
-            isIllegal = true;
-        } else if ((posX > 7) || (posX < 0) || (posY< 0)){ //off the map
-            isIllegal = true;
-        }
-    } else {
-         if ((posX == 3 || posX == 4) && posY == 7) { //own serverPort
-            isIllegal = true;
-        } else if ((posX > 7) || (posX < 0) || (posY > 7)){ //off the map
-            isIllegal = true;
-        } 
-    }
+    // if (isP1Turn){
+    //     if ((posX == 3 || posX == 4) && posY == 0) { //own serverPort
+    //         isIllegal = true;
+    //     } else if ((posX > 7) || (posX < 0) || (posY< 0)){ //off the map
+    //         isIllegal = true;
+    //     }
+    // } else {
+    //      if ((posX == 3 || posX == 4) && posY == 7) { //own serverPort
+    //         isIllegal = true;
+    //     } else if ((posX > 7) || (posX < 0) || (posY > 7)){ //off the map
+    //         isIllegal = true;
+    //     } 
+    // }
 
     //if illegal move return false
-    if(isIllegal){
-        cout << "Illegal move" << endl;
-        return false;
+    // if(isIllegal){
+    //     cout << "Illegal move" << endl;
+    //     return false;
     
-    } else { //else make the necessary moves
+    // } else { //else make the necessary moves
         switch (direction) {
-            case 'N': links[id].moveN();
-            case 'W': links[id].moveW();
-            case 'E': links[id].moveE();
-            case 'S': links[id].moveS();
+            case 'n': links[id].moveN();
+            case 'w': links[id].moveW();
+            case 'e': links[id].moveE();
+            case 's': links[id].moveS();
         }   
         return true;
-    }
+    // }
     
 } //moveLink
 
