@@ -114,9 +114,7 @@ int main(int argc, char* argv[]) {
     g.initPlayerOne(move(p1));
     g.initPlayerTwo(move(p2));
     g.init();
-    g.toggleTurn();
     std::cout << g << endl;
-    g.toggleTurn();
 
     std::cout << "Player 1's turn." << endl;
 
@@ -139,11 +137,13 @@ int main(int argc, char* argv[]) {
                 g.moveLink(linkId, direction); // (*) check valid id, direction, 
                 // check if finished
                 if (g.checkFinished()) {
-                cout << "GAME FINISHED." << endl;
-                break;
-            }
-                std::cout << g;
+                    cout << "GAME FINISHED." << endl;
+                    break;
+                }
+
                 g.toggleTurn();
+                std::cout << g;
+                
                 usedAbility = false;
                     // print whose turn
                 if (g.checkWhoseTurn()) std::cout << "Player 1's turn." << endl;

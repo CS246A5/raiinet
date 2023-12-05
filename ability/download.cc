@@ -42,7 +42,7 @@ void Download::activate(Player& player, Player& opponent ) {
             setUsed(true);
             player.downloadLink(link);
             
-            char replacement; // find what replaces the chasm left by the downloaded link
+            char replacement; // get replacement for the hole left by the downloaded link
             if (player.getGame()->getBoard()->theBoard[link.getPosY()][link.getPosX()].
                 isPlayerOneFirewall()) replacement = 'm';
             else if (player.getGame()->getBoard()->theBoard[link.getPosY()][link.getPosX()].

@@ -285,7 +285,7 @@ std::ostream &operator<<(std::ostream &out, const Game &g)
         if (g.p1->getPureLink(ch).checkIfData()) linkType = "D";
         else linkType = "V";
         // print depends on whether the link has been revealed
-        if (g.whoseTurn && !g.p1->getPureLink(ch).checkIfRevealed()) {
+        if (!g.whoseTurn && !g.p1->getPureLink(ch).checkIfRevealed()) {
             out << ch << ": " << "? " << " ";
         }
         else out << ch << ": " << linkType << g.p1->getPureLink(ch).getStrength() << " ";
@@ -296,7 +296,7 @@ std::ostream &operator<<(std::ostream &out, const Game &g)
         string linkType;
         if (g.p1->getPureLink(ch).checkIfData()) linkType = "D";
         else linkType = "V";
-        if (g.whoseTurn && !g.p1->getPureLink(ch).checkIfRevealed()) {
+        if (!g.whoseTurn && !g.p1->getPureLink(ch).checkIfRevealed()) {
             out << ch << ": " << "? " << " ";
         }
         else out << ch << ": " << linkType << g.p1->getPureLink(ch).getStrength() << " ";
@@ -320,7 +320,7 @@ std::ostream &operator<<(std::ostream &out, const Game &g)
         string linkType;
         if (g.p2->getPureLink(ch).checkIfData()) linkType = "D";
         else linkType = "V";
-        if (!g.whoseTurn && !g.p2->getPureLink(ch).checkIfRevealed()) {
+        if (g.whoseTurn && !g.p2->getPureLink(ch).checkIfRevealed()) {
             out << ch << ": " << "? " << " ";
         }
         else out << ch << ": " << linkType << g.p2->getPureLink(ch).getStrength() << " ";
@@ -331,7 +331,7 @@ std::ostream &operator<<(std::ostream &out, const Game &g)
         string linkType;
         if (g.p2->getPureLink(ch).checkIfData()) linkType = "D";
         else linkType = "V";
-        if (!g.whoseTurn && !g.p2->getPureLink(ch).checkIfRevealed()) {
+        if (g.whoseTurn && !g.p2->getPureLink(ch).checkIfRevealed()) {
             out << ch << ": " << "? " << " ";
         }
         else out << ch << ": " << linkType << g.p2->getPureLink(ch).getStrength() << " ";
