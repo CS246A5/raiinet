@@ -87,7 +87,6 @@ GraphicsDisplay::GraphicsDisplay(Xwindow &w, Game& g) : w{w}, g{g} {
     }
 }
 
-void GraphicsDisplay::setSize(int newSize) {size = newSize;}
 
 
 void GraphicsDisplay::notify(Cell &c) {

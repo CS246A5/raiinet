@@ -22,7 +22,7 @@ class Game {
     unique_ptr<Board> b = make_unique<Board>();
     
     unique_ptr<TextDisplay> td = make_unique<TextDisplay>();
-    unique_ptr<GraphicsDisplay> gd = make_unique<GraphicsDisplay>();
+    unique_ptr<GraphicsDisplay> gd;
     bool GDEnabled = false; // true if graphics display is enabled
 
     public:
