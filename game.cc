@@ -63,7 +63,7 @@ void Game::toggleTurn()
 void Game::init(Xwindow &w)
 {   
     //graphic display creation
-    unique_ptr<GraphicsDisplay> gd = make_unique<GraphicsDisplay>(w, *this);
+    gd = make_unique<GraphicsDisplay>(w, *this);
 
     b->init(td.get(), gd.get());
     // server ports
