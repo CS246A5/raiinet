@@ -94,16 +94,30 @@ void GraphicsDisplay::notify(Cell &c) {
     int col = c.getColumn();
     int x = 20 + col * cellSize;
     int y = 120 + row * cellSize;
-
+        
     char sym = c.getState();
+    
+    Player* currentPlayer1 = g.getCurrentPlayer();
+    int strength = currentPlayer1->getPureLink(sym).getStrength();
+    string linkType = (currentPlayer1->getPureLink(sym).checkIfData()) ? "D" : "V";
+    string linkDisplay = (currentPlayer1->getPureLink(sym).checkIfRevealed()) ? "?" : linkType + std::to_string(strength);
+
     std::string msg(1,sym);
     if(sym == '.') {
         w.fillRectangle(x, y, cellSize, cellSize, Xwindow::White);
         w.drawString(x + cellSize / 2, y + cellSize / 2, msg);
-    }  else {
+    } else if (linkDisplay == "?") {
         w.fillRectangle(x, y, cellSize, cellSize, Xwindow::Black);
         w.drawString(x + cellSize / 2, y + cellSize / 2, msg, Xwindow::White);
+    } else if (linkType == "D") {
+        w.fillRectangle(x, y, cellSize, cellSize, Xwindow::Green);
+        w.drawString(x + cellSize / 2, y + cellSize / 2, msg, Xwindow::White);
+    } else if (linkType == "V") {
+        w.fillRectangle(x, y, cellSize, cellSize, Xwindow::Red);
+        w.drawString(x + cellSize / 2, y + cellSize / 2, msg, Xwindow::White);
     }
+    
+
 }
 
 GraphicsDisplay::~GraphicsDisplay() {}
