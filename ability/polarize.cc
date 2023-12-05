@@ -11,6 +11,8 @@ Polarize::Polarize() : Ability("Polarize", move(theGame)) {
       // Constructor for Polarize
 }
 
+Polarize::~Polarize(){}
+
 void Polarize::activate(Player& player, Player& opponent) { 
     cout << "Enter the name or ID of the link you want to polarize: ";
     string linkName;
