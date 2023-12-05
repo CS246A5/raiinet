@@ -31,6 +31,10 @@ void Game::initPlayerOne(unique_ptr<Player> player1) { p1 = move(player1); }
 
 void Game::initPlayerTwo(unique_ptr<Player> player2) { p2 = move(player2); }
 
+bool Game::checkWhoseTurn() {
+    return whoseTurn;
+}
+
 Board *Game::getBoard()
 {
     return b.get();
@@ -218,7 +222,7 @@ std::ostream &operator<<(std::ostream &out, const Game &g)
         out << "Board not initialized.";
     }
     out << "========" << endl;
-    out << "Player 1:" << endl;
+    out << "Player 2:" << endl;
     out << "Downloaded: " << g.p1->getNumData() << "D, " << g.p1->getNumVirus() << "V" << endl;
     out << "Abilities: " << g.p1->getNumAbilities() << endl;
     // printLinks

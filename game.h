@@ -28,6 +28,7 @@ class Game {
     Player* getCurrentPlayer();
     void initPlayerOne(unique_ptr<Player> player1);
     void initPlayerTwo(unique_ptr<Player> player2);
+    bool checkWhoseTurn(); // returns true if player 1's turn, false otherwise
     Board* getBoard(); // returns the board by pointer
     bool checkFinished();   // check if the game has finished- check if any player
                             // has 4 viruses or 4 data
@@ -37,7 +38,6 @@ class Game {
     void moveLink(char id, char dir);   // moves the current player's link by id in the dir direction
                                         // dir can be 'n', 'e', 's', 'w'
                                         // edits the board
-    void updateBoard(); // updates board
     void printAbilities();
     friend std::ostream &operator<<(std::ostream &out, const Game &g);
 };
