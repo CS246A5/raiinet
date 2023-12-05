@@ -107,6 +107,11 @@ void Game::moveLink(char id, char dir)
     Player *curPlayer = theirTurn(whoseTurn);
     Player *curOpponent = theirTurn(!whoseTurn);
 
+    // check if link is sabotaged
+    if (curPlayer->getPureLink(id).checkIfSabotaged()) {
+        throw logic_error {"You can't move a sabotaged link. Try again."};
+    }
+
     // old position
     int posX = curPlayer->getPureLink(id).getPosX();
     int posY = curPlayer->getPureLink(id).getPosY();

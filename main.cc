@@ -148,6 +148,8 @@ int main(int argc, char* argv[]) {
                     // print whose turn
                 if (g.checkWhoseTurn()) std::cout << "Player 1's turn." << endl;
                 else std::cout << "Player 2's turn." << endl;
+                // if one of curPlayer's links are sabotaged, play game to fix it
+                g.getCurrentPlayer()->hasSabotagedLink();
             }
 
             else if (command == "abilities") {

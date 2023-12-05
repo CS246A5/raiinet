@@ -19,7 +19,7 @@ void MoveLink::activate(Player& player, Player& opponent ) {
     int posY;
     
     while (true) {
-        Board *b = theGame->getBoard(); 
+        Board *b = player.getGame()->getBoard(); 
 
         cin >> id >> posX >> posY;
         try{

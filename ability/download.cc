@@ -51,7 +51,7 @@ void Download::activate(Player& player, Player& opponent ) {
 
             player.getGame()->getBoard()->theBoard[link.getPosY()][link.getPosX()]
                 .setState(replacement);
-            cout << "Link " << id << " has been downloaded.\n";
+            cout << "Link " << id << " has been downloaded." << endl;
             break; // Exit the loop since we found the link
         }
     }

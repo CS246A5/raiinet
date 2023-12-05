@@ -31,7 +31,7 @@ void LinkBoost::activate(Player& player, Player& opponent ) {
             cout << "Link " << id << " has already been boosted. Please re-enter the link id: ";
         } else {
             link.setIsBoosted(true);
-            cout << "Link " << id << " has been boosted.\n";
+            cout << "Link " << id << " has been boosted." << endl;
             break; 
         }
     }

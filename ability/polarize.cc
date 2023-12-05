@@ -35,12 +35,12 @@ void Polarize::activate(Player& player, Player& opponent) {
         // Check if it's a data link or a virus link 
         else if (link.checkIfData()) {
             link.setIsData(false);
-            cout << "Link " << linkName << " has been polarized from a Data to a Virus link.";
+            cout << "Link " << linkName << " has been polarized from a Data to a Virus link." << endl;
             break;  // Exit loop after successful polarization
         } 
         else {
             link.setIsData(true);
-            cout << "Link " << linkName << " has been polarized from a Virus to a Data link.";
+            cout << "Link " << linkName << " has been polarized from a Virus to a Data link." << endl;
             break;  // Exit loop after successful polarization
         }
     }

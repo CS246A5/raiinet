@@ -31,7 +31,7 @@ void Scan::activate(Player& player, Player& opponent) {
         }
         else {
             link.reveal();
-            cout << "Link " << id << " has been revealed.";
+            cout << "Link " << id << " has been revealed." << endl;
             break;  // Exit loop after successful polarization
         }
     }
