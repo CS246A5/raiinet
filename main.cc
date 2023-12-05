@@ -156,7 +156,7 @@ int main() {
             }
             int index;
             ss >> index;
-            g.useAbility(index);
+            g.useAbility(index-1);
             usedAbility = true;
         }
 
