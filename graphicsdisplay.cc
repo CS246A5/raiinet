@@ -172,11 +172,11 @@ void GraphicsDisplay::switchTurn() {
         string linkDisplay = (!g.checkWhoseTurn() && !currentPlayer1->getPureLink(ch).checkIfRevealed()) ? "?" : linkType + std::to_string(strength);
 
         w.drawString(linkX, linkY, sChar + ": " + linkDisplay);
-        linkX += 50; // Adjust the spacing as needed
+        linkX += 50; 
     }
 
 
-    // Display the Board at initialization
+    //  the Board at initialization
     if (g.getBoard())
     {
         for (int i = 0; i < 8; ++i)
@@ -208,4 +208,19 @@ void GraphicsDisplay::switchTurn() {
     }
 }
 
+
+void GraphicsDisplay::printAbilities() {
+    Player *currentPlayer = g.getCurrentPlayer();
+    if (!currentPlayer) {
+        cerr << "Error: No current player." << endl;
+        return;
+    }
+
+    int x = 10; 
+    int y = 250; 
+
+    w.fillRectangle(0, y - 30, 700, 30, Xwindow::White);
+    w.drawString(x, y - 10, currentPlayer->abilitiesToString());
+
+}
 

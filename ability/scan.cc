@@ -26,11 +26,11 @@ void Scan::activate(Player& player, Player& opponent) {
         }
 
         // Get the link from the player
-        Link& link = opponent.getPureLink(id);
-        link = player.getPureLink(id);
-    
-
-        link.reveal();
+        if (id == 'a' || id == 'b' || id == 'c' || id == 'd' || 
+                id == 'e' || id == 'f' || id == 'g' || id == 'h') {
+                    player.getGame()->theirTurn(true)->getPureLink(id).reveal(); // player One
+        }
+        else player.getGame()->theirTurn(false)->getPureLink(id).reveal(); // player Two
 
         cout << "Link " << id << " has been revealed." << endl;
         break;  // Exit loop after successful polarization

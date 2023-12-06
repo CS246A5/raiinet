@@ -58,15 +58,17 @@ bool Game::checkFinished()
 void Game::toggleTurn()
 {
     whoseTurn = !whoseTurn;
-    gd->switchTurn();
+    if (GDEnabled) gd->switchTurn();
 }
 
-void Game::init(Xwindow &w)
+void Game::init()
 {   
-    //graphic display creation
-    gd = make_unique<GraphicsDisplay>(w, *this);
+    if (GDEnabled) {
+        Xwindow w;
+        gd = make_unique<GraphicsDisplay>(w, *this);
+    }
 
-    b->init(td.get(), gd.get());
+    b->init(td.get(), gd.get(), GDEnabled);
     // server ports
     b->getCell(0, 3)->setState('S');
     b->getCell(0, 4)->setState('S');
@@ -117,6 +119,13 @@ void Game::moveLink(char id, char dir)
     // check if link is sabotaged
     if (curPlayer->getPureLink(id).checkIfSabotaged()) {
         throw logic_error {"You can't move a sabotaged link. Try again."};
+    }
+
+    if ((whoseTurn == true && (id == 'A' || id == 'B' || id == 'C' || id == 'D' ||
+                            id == 'E' || id == 'F' || id == 'G' || id == 'H')) ||
+        (whoseTurn == false && (id == 'a' || id == 'b' || id == 'c' || id == 'd' ||
+                            id == 'e' || id == 'f' || id == 'g' || id == 'h'))) {
+        throw logic_error {"You can't try to move your opponent's link. Try again."};
     }
 
     // old position
@@ -271,6 +280,8 @@ void Game::printAbilities()
 {
     Player *curPlayer = theirTurn(whoseTurn);
     curPlayer->printAbilities();
+    if (GDEnabled) gd->printAbilities();
+
 } // printAbilities
 
 

@@ -45,6 +45,7 @@ class Player {
         void downloadLink(Link& currLink); //increment the number of data/virus downloaded
         Link& getLink(char id); // get link at id (a-h) or (A-H)
         Link& getPureLink(char id); // get link at id (a-h) or (A-H) NO EXCEPTION SAFETY NEEDED
+
         bool hasSabotagedLink(); // plays guessing game if one is sabotaged to fix
 
         void addAbility(char ability); // adds ability 'L', 'S', etc.
@@ -54,6 +55,7 @@ class Player {
                                                                 // direction. Updates link coords
         void useAbility(int i, Player& Opponent); // uses ability at index i
         void printAbilities(); //print the abilities avaliable
+        string abilitiesToString(); //print the abilities into a string
         friend std::ostream &operator << (std::ostream &out, const Player &p);
 };
 

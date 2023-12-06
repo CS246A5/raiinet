@@ -146,13 +146,18 @@ void Player::addAbility(char ability) {
 }
 
 //Link(int posX, int posY, int strength, bool isData); 
-
+#include <sstream>
 // add a link during setup
 void Player::addLink(char id, string link) {
     //convert string link into strength and boolean for data or virus
     //convert strength to int
     char cStrength = link[1];
-    int strength = cStrength - '0';
+    string cStrengthString = string {cStrength};
+    // int strength = cStrength - '0';
+    istringstream s {cStrengthString};
+    int strength;
+    s >> strength;
+
 
     char cIsData = link[0];
     bool isData = true;
@@ -263,6 +268,22 @@ void Player::printAbilities() {
         }
     }
     cout << endl;
+}
+
+string Player::abilitiesToString() {
+    string abilitiesStr;
+    abilitiesStr =  "Available Abilities: ";
+    for (int i = 0; i < 5; ++i) {
+        if (abilities[i] != nullptr) {
+            string ifUsed = "1";
+            if (abilities[i]->checkUsed()) {
+                ifUsed = "x";
+            }
+            abilitiesStr = abilitiesStr + abilities[i]->getAbility() + " " + ifUsed + "; ";
+        }
+    }
+    abilitiesStr = abilitiesStr + "\n";
+    return abilitiesStr;
 }
 
 
