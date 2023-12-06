@@ -20,7 +20,7 @@ class Board {
     ~Board();
     Cell *getCell(int r, int c); // gets cell at row r and column c
     void changeState(int r, int c, char newState); // changes the representative char at row r column c
-    void init(TextDisplay *td, GraphicsDisplay* gd); // attaches td as an observer to every Cell on theBoard
+    void init(TextDisplay *td, GraphicsDisplay* gd, bool ifGd); // attaches td as an observer to every Cell on theBoard
     friend std::ostream &operator<<(std::ostream &out, const Board &b);
 };
 
