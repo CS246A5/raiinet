@@ -58,6 +58,7 @@ bool Game::checkFinished()
 void Game::toggleTurn()
 {
     whoseTurn = !whoseTurn;
+    gd->switchTurn();
 }
 
 void Game::init(Xwindow &w)

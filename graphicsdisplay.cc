@@ -11,6 +11,8 @@
 
 using namespace std;
 
+
+
 // creates an nxn display
 GraphicsDisplay::GraphicsDisplay(Xwindow &w, Game &g) : w{w}, g{g}
 {
@@ -153,3 +155,55 @@ void GraphicsDisplay::notify(Cell &c)
 }
 
 GraphicsDisplay::~GraphicsDisplay() {}
+
+void GraphicsDisplay::switchTurn() {
+    w.fillRectangle(0, 60, 700, 20, Xwindow::White);
+    // display Player 1
+    Player *currentPlayer1 = g.theirTurn(true);
+    // display Player 1 Links
+    int linkX = 20, linkY = 80;
+    int count = 0;
+    for (char ch : {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'})
+    {
+        count++;
+        int strength = currentPlayer1->getPureLink(ch).getStrength();
+        string sChar(1, ch);
+        string linkType = (currentPlayer1->getPureLink(ch).checkIfData()) ? "D" : "V";
+        string linkDisplay = (!g.checkWhoseTurn() && !currentPlayer1->getPureLink(ch).checkIfRevealed()) ? "?" : linkType + std::to_string(strength);
+
+        w.drawString(linkX, linkY, sChar + ": " + linkDisplay);
+        linkX += 50; // Adjust the spacing as needed
+    }
+
+
+    // Display the Board at initialization
+    if (g.getBoard())
+    {
+        for (int i = 0; i < 8; ++i)
+        {
+            for (int j = 0; j < 8; ++j)
+            {
+                char sym = g.getBoard()->getCell(i, j)->getState();
+                std::string msg(1, sym);
+                if (sym != '.') this->notify(*g.getBoard()->getCell(i,j));
+            }
+        }
+    }
+
+    // display Player 2
+    Player *currentPlayer2 = g.theirTurn(false);
+    w.fillRectangle(0, 580, 700, 20, Xwindow::White);
+    linkX = 20, linkY = 600; // reset coordinates for Player 2
+    // display Player 2 Links
+    count = 0;
+    for (char ch : {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'})
+    {
+        string sChar(1, ch);
+        int strength = currentPlayer2->getPureLink(ch).getStrength();
+        string linkType = (currentPlayer2->getPureLink(ch).checkIfData()) ? "D" : "V";
+        string linkDisplay = (g.checkWhoseTurn() && !currentPlayer2->getPureLink(ch).checkIfRevealed()) ? "?" : linkType + to_string(strength);
+
+        w.drawString(linkX, linkY, sChar + ": " + linkDisplay);
+        linkX += 50; // adjust the spacing
+    }
+}

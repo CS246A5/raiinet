@@ -18,7 +18,7 @@ class GraphicsDisplay : public Observer {
     public:
     GraphicsDisplay(Xwindow &w, Game& g);
     void notify(Cell &c) override; // my reaction to getting notified
-
+    void switchTurn();
     ~GraphicsDisplay();
 };
 

@@ -18,22 +18,23 @@ void Scan::activate(Player& player, Player& opponent) {
     while (true) {
         cin >> id;
 
-        // Get the link from the player
-        Link& link = opponent.getLink(id);
-        if (islower(id)) link = player.getLink(id);
-
-        // if the link id does not exist
-        else if (!(id == 'a' || id == 'b' || id == 'c' || id == 'd' || 
+        if (!(id == 'a' || id == 'b' || id == 'c' || id == 'd' || 
                 id == 'e' || id == 'f' || id == 'g' || id == 'h' || 
                 id == 'A' || id == 'B' || id == 'C' || id == 'D' || 
                 id == 'E' || id == 'F' || id == 'G' || id == 'H')) {
             throw logic_error {"This link id does not exist. Try again."};
         }
-        else {
-            link.reveal();
-            cout << "Link " << id << " has been revealed." << endl;
-            break;  // Exit loop after successful polarization
-        }
+
+        // Get the link from the player
+        Link& link = opponent.getPureLink(id);
+        link = player.getPureLink(id);
+    
+
+        link.reveal();
+
+        cout << "Link " << id << " has been revealed." << endl;
+        break;  // Exit loop after successful polarization
+        
     }
 
     // try {
