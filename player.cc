@@ -62,6 +62,8 @@ int Player::getNumAbilities() const {
     return count;
 }
 
+
+
 // getter for a specific link
 Link& Player::getLink(char id) {
     auto it = links.find(id);
@@ -253,7 +255,7 @@ void Player::printAbilities() {
     cout << "Available Abilities: ";
     for (int i = 0; i < 5; ++i) {
         if (abilities[i] != nullptr) {
-            string ifUsed = "✓";
+            string ifUsed = "1";
             if (abilities[i]->checkUsed()){
                 ifUsed = "x";
             }
