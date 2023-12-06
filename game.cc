@@ -58,15 +58,17 @@ bool Game::checkFinished()
 void Game::toggleTurn()
 {
     whoseTurn = !whoseTurn;
-    gd->switchTurn();
+    if (GDEnabled) gd->switchTurn();
 }
 
-void Game::init(Xwindow &w)
+void Game::init()
 {   
-    //graphic display creation
-    gd = make_unique<GraphicsDisplay>(w, *this);
+    if (GDEnabled) {
+        Xwindow w;
+        gd = make_unique<GraphicsDisplay>(w, *this);
+    }
 
-    b->init(td.get(), gd.get());
+    b->init(td.get(), gd.get(), GDEnabled);
     // server ports
     b->getCell(0, 3)->setState('S');
     b->getCell(0, 4)->setState('S');

@@ -35,12 +35,12 @@ void Board::changeState(int r, int c, char newState) {
 }
 
 
-void Board::init(TextDisplay* td, GraphicsDisplay* gd) {
+void Board::init(TextDisplay* td, GraphicsDisplay* gd, bool ifGd) {
     // Attach the TextDisplay observer to every Cell on theBoard
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
             theBoard[i][j].attach(td); // Attach the observer to the cell
-            theBoard[i][j].attach(gd);
+            if (ifGd) theBoard[i][j].attach(gd);
         }
     }
     
